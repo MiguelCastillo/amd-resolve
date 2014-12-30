@@ -1,4 +1,4 @@
-amd-resolve
+amd-resolver
 ===========
 
 Resolve AMD module names to File objects
