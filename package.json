@@ -1,0 +1,40 @@
+{
+  "name": "amd-resolve",
+  "version": "0.0.1",
+  "description": "Resolve AMD module names to File objects",
+  "main": "dist/resolve.js",
+  "scripts": {
+    "prepublish": "browserify src/resolve.js -o dist/resolve.js -s resolve --dg false",
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MiguelCastillo/amd-resolve.git"
+  },
+  "author": "Miguel Castillo <manchagnu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MiguelCastillo/amd-resolve/issues"
+  },
+  "homepage": "https://github.com/MiguelCastillo/amd-resolve",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "mocha": "~2.1.0",
+    "browserify": "~8.0.2",
+    "chai": "~1.10.0",
+    "grunt-contrib-connect": "~0.9.0",
+    "grunt-mocha": "~0.4.11",
+    "requirejs": "~2.1.15"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "browserify": "~8.0.2",
+    "chai": "~1.10.0",
+    "grunt": "~0.4.5",
+    "grunt-contrib-connect": "~0.9.0",
+    "grunt-mocha": "~0.4.11",
+    "requirejs": "~2.1.15"
+  }
+}
