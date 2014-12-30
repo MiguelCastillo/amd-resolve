@@ -3,11 +3,11 @@
 
   var File = require('./file');
 
-  function Resolve(settings) {
+  function Resolver(settings) {
     this.settings = settings;
   }
 
-  Resolve.prototype.resolve = function(name) {
+  Resolver.prototype.resolve = function(name) {
     var i, length, pkg, globalName;
     var settings = this.settings,
         globals  = settings.globals || settings.shim,
@@ -44,5 +44,5 @@
     };
   };
 
-  module.exports = Resolve;
+  module.exports = Resolver;
 })();

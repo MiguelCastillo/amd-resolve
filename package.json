@@ -1,22 +1,22 @@
 {
-  "name": "amd-resolve",
+  "name": "amd-resolver",
   "version": "0.0.1",
   "description": "Resolve AMD module names to File objects",
-  "main": "dist/resolve.js",
+  "main": "dist/resolver.js",
   "scripts": {
-    "prepublish": "browserify src/resolve.js -o dist/resolve.js -s resolve --dg false",
+    "prepublish": "browserify src/resolver.js -o dist/resolver.js -s amd-resolver --dg false",
     "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MiguelCastillo/amd-resolve.git"
+    "url": "https://github.com/MiguelCastillo/amd-resolver.git"
   },
   "author": "Miguel Castillo <manchagnu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MiguelCastillo/amd-resolve/issues"
+    "url": "https://github.com/MiguelCastillo/amd-resolver/issues"
   },
-  "homepage": "https://github.com/MiguelCastillo/amd-resolve",
+  "homepage": "https://github.com/MiguelCastillo/amd-resolver",
   "devDependencies": {
     "grunt": "~0.4.5",
     "mocha": "~2.1.0",
