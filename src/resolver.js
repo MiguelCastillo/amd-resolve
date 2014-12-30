@@ -44,5 +44,6 @@
     };
   };
 
+  Resolver.File = File;
   module.exports = Resolver;
 })();

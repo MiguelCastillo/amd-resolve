@@ -9,6 +9,7 @@ define([
   mocha.setup("bdd");
 
   require([
+    "tests/specs/file",
     "tests/specs/resolver"
   ], mocha.run);
 });
