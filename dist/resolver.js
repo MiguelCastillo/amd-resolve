@@ -252,8 +252,8 @@
    *     certain code to be loaded before the shim itself.
    *
    */
-  function Resolver(settings) {
-    this.settings = settings;
+  function Resolver(options) {
+    this.settings = options;
   }
 
   /**
@@ -286,7 +286,7 @@
 
     if (shims && shims.hasOwnProperty(name)) {
       shim = {
-        name: shims[name].exports || name,
+        name: shims[name].exports || shims[name].name || name,
         deps: shims[name].deps || []
       };
     }
