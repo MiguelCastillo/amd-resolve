@@ -253,7 +253,7 @@
    *
    */
   function Resolver(options) {
-    this.settings = options;
+    this.settings = options || {};
   }
 
   /**
@@ -261,14 +261,18 @@
    *
    * @param {string} name - Module name/id
    *
-   * @returns {"name": {string}, "file": {File}, "urlArgs": {string}, "shim": {object}}
+   * @returns {{name: string, file: File, urlArgs: string, shim: object}}
    */
   Resolver.prototype.resolve = function(name) {
     var i, length, pkg, shim;
     var settings = this.settings,
         shims    = settings.shim || {},
         packages = settings.packages || [],
-        fileName = (settings.paths && settings.paths[name]) || name;
+        fileName = (settings.paths && settings.paths[name]) || name,
+        plugins  = name.split("!");
+
+    // The last item is the actual module name.
+    name = plugins.pop();
 
     // Go through the packages and figure if the module is actually configured as such.
     for (i = 0, length = packages.length; i < length; i++) {
@@ -295,7 +299,8 @@
       name: name,
       file: new File(fileName, settings.baseUrl),
       urlArgs: settings.urlArgs,
-      shim: shim
+      shim: shim,
+      plugins: plugins
     };
   };
 

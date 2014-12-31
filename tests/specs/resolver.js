@@ -209,6 +209,52 @@ define(["dist/resolver"], function(Resolver) {
     });
 
 
+    describe("When Resolver has plugins", function() {
+      var resolver;
+      beforeEach(function() {
+        resolver = new Resolver();
+      });
+
+      describe("and a module name is `path/to/file.css`", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("path/to/file.css");
+        });
+
+        it("then module name is `path/to/file.css`", function() {
+          expect(moduleMeta.name).to.equal("path/to/file.css");
+        });
+
+        it("then first plugin is an empty array", function() {
+          expect(moduleMeta.plugins.length).to.equal(0);
+        });
+      });
+
+      describe("and a module name is `less!css!path/to/file.css`", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("less!css!path/to/file.css");
+        });
+
+        it("then module name is `path/to/file.css`", function() {
+          expect(moduleMeta.name).to.equal("path/to/file.css");
+        });
+
+        it("then first plugin is an array with two items", function() {
+          expect(moduleMeta.plugins.length).to.equal(2);
+        });
+
+        it("then first plugin is `less`", function() {
+          expect(moduleMeta.plugins[0]).to.equal("less");
+        });
+
+        it("then second plugin is `css`", function() {
+          expect(moduleMeta.plugins[1]).to.equal("css");
+        });
+      });
+    });
+
+
     describe("When Resolver is configured with `baseUrl`", function() {
       it("needs tests");
     });
