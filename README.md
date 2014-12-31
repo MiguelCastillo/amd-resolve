@@ -6,7 +6,7 @@ Resolve AMD module names to a module meta with a File object.
 ### API
 
 #### Resolver(options : object) : constructor
-provides a way to process a configuration such as one from requirejs to convert module names/ids to module meta objects. Module meta objects contain information such as the url for the module, which can be used for retrieving the corresponding file from a remote sever.
+Resolver - provides the means to convert a module name to a module meta object. A module meta object contains information such as a url, which can be used for fetching the module file from a remote sever.
 
 @param {object} options - is a configuration object for properly creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
 
