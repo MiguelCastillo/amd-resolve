@@ -69,7 +69,7 @@
    *
    * @param {string} name - Module name/id
    *
-   * @returns {"name": {string}, "file": {File}, "urlArgs": {string}, "globalName": {string}}
+   * @returns {"name": {string}, "file": {File}, "urlArgs": {string}, "shim": {object}}
    */
   Resolver.prototype.resolve = function(name) {
     var i, length, pkg, shim;
