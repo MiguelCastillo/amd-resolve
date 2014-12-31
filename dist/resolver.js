@@ -266,8 +266,8 @@
   Resolver.prototype.resolve = function(name) {
     var i, length, pkg, shim;
     var settings = this.settings,
-        shims    = settings.shim,
-        packages = settings.packages,
+        shims    = settings.shim || {},
+        packages = settings.packages || [],
         fileName = (settings.paths && settings.paths[name]) || name;
 
     // Go through the packages and figure if the module is actually configured as such.
@@ -284,7 +284,7 @@
       }
     }
 
-    if (shims && shims.hasOwnProperty(name)) {
+    if (shims.hasOwnProperty(name)) {
       shim = {
         name: shims[name].exports || shims[name].name || name,
         deps: shims[name].deps || []
