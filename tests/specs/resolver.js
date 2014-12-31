@@ -77,6 +77,10 @@ define(["dist/resolver"], function(Resolver) {
             "jimmy": {
               "name": "coffee",
               "deps": ["trucks", "passport"]
+            },
+            "macho": {
+              "exports": "camacho",
+              "imports": ["guns", "president"]
             }
           }
         });
@@ -133,6 +137,29 @@ define(["dist/resolver"], function(Resolver) {
 
         it("deps[1] is `passport`", function() {
           expect(moduleMeta.shim.deps[1]).to.equal("passport");
+        });
+      });
+
+      describe("and resolving shim `macho`", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("macho");
+        });
+
+        it("then shim is an object", function() {
+          expect(moduleMeta.shim).to.be.an("object");
+        });
+
+        it("then shim exports `camacho`", function() {
+          expect(moduleMeta.shim.name).to.equal("camacho");
+        });
+
+        it("them shim imports `guns`", function() {
+          expect(moduleMeta.shim.deps[0]).to.equal("guns");
+        });
+
+        it("them shim imports `president`", function() {
+          expect(moduleMeta.shim.deps[1]).to.equal("president");
         });
       });
 

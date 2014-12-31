@@ -291,7 +291,7 @@
     if (shims.hasOwnProperty(name)) {
       shim = {
         name: shims[name].exports || shims[name].name || name,
-        deps: shims[name].deps || []
+        deps: shims[name].imports || shims[name].deps || []
       };
     }
 
