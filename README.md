@@ -96,3 +96,11 @@ var mochaModuleMeta    = resolver.resolve("mocha"),
     package1ModuleMeta = resolver.resolve("package1");
 ```
 
+
+### Install
+
+#### From npm
+
+```
+npm install amd-resolver
+```
