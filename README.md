@@ -78,13 +78,14 @@ var resolver = new Resolver({
 
 Creates a module meta object.
 
-@param {string} `name` - Name of the module to create a module meta object.
+@param {string} `name` - Name of the module to create a module meta object. The name can be formatted with plugins such as `css!filename.css`.
 
 @returns {object} module meta
 
   - @property {string} `name` - is the name of the module being resolved.
   - @property {File} `file` - is the object that can generate a URL to request the module code from a remote server.
   - @property {string} `urlArgs` - cgi parameters to be used when requesting the module code from a remote server.
+  - @property {array} `plugins` - array of strings created from the name to be resolved.  Anything that is delimited with `!` will be processed as a plugin.
   - @property {object} `shim` - which is the an object containing information about the module as it exists in the global object. `shim` can specify a couple of things.
     - @property {string} `exports | name` - which is the name the shim has in the global space.
     - @property {array} `deps` - which is an array of string of dependencies that need to be loaded before the shim.
