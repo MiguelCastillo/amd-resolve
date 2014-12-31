@@ -28,12 +28,12 @@ Resolver - provides the means to convert a module name to a module meta object. 
 
 - @property {array} packages - is an array for defining directory aliases to module files. Think npm packages that have an `index.js` or a `main.js`.
 
-  A package can just be a string, in which case if we gave resolver the name of the package, it will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving that package will generate a url to `machinge/main.js`. Alternatively, a package can be an object to provide more granular control over thr url that is generated.
+  A package can just be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving that package will generate a url to `machinge/main.js`.
 
-  In order to configure the defaults, you can define a package as an object with the following properties:
+  Alternatively, a package can be an object used for more granual control of the resolution process. The following properties properties are supported:
 
   - @property {string} location - which is the location on disk.
-  - @property {string} main - file name. Define if `main.js` is not what needs to be loaded.
+  - @property {string} main - file name. Define if `main.js` is not the proper module file.
   - @property {string} name - package name.
 
 
