@@ -56,12 +56,13 @@ var resolver = new Resolver({
   },
   "shim": {
     "mocha": {
-      "exports": "mocha"
+      "exports": "mocha",
+      "imports": ["sinon", "chai"]
     }
   },
   "packages": [
     "pacakge1", {
-      "name": "package2"
+      "main": "index.js"
     }, {
       "location": "good/tests",
       "main": "index",
@@ -90,13 +91,31 @@ Creates a module meta object.
     - @property {string} `name` - which is the name the shim has in the global space.
     - @property {array} `deps` - which is an array of string of dependencies that need to be loaded before the shim.
 
-##### example:
+##### examples:
 
+Create module meta objects
 ``` javascript
 var mochaModuleMeta    = resolver.resolve("mocha"),
-    package1ModuleMeta = resolver.resolve("package1");
+    package1ModuleMeta = resolver.resolve("package1"),
+    cssModuleMeta      = resolver.resolve("css!less!path/to/file.less");
 ```
 
+Urls
+```
+var mochaUrl    = mochaModuleMeta.file.toUrl(),      // url === "../node_modules/mocha/mocha.js"
+    package1Url = package1ModuleMeta.file.toUrl(),   // url === "package1/index.js"
+    cssUrl      = cssModuleMeta.file.toUrl();        // url === "path/to/file.less"
+```
+
+Plugins
+``` javascript
+var cssPlugins = cssModuleMeta.plugins;  // plugins === ["css", "less"]
+```
+
+Shim
+``` javascript
+var mochaShim = mochaModuleMeta.shim; // shim === {name: "mocha", deps: ["sinon", "chai"]}
+```
 
 ### Install
 
