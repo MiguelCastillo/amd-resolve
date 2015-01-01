@@ -64,6 +64,11 @@ define(["dist/resolver"], function(Resolver) {
           expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/mod.js");
         });
 
+        it("then resolving `assets/library/mod.js` is 'good/tests/assets/library/mod.js'", function() {
+          var moduleMeta = resolver.resolve("assets/library/mod.js");
+          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/mod.js");
+        });
+
         it("then resolving `assets/library/template.html` is 'good/tests/assets/library/template.html'", function() {
           var moduleMeta = resolver.resolve("assets/library/template.html");
           expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/template.html");
