@@ -21,9 +21,9 @@
     this.path     = fileName.path;
   }
 
-  File.prototype.toUrl = function (extension) {
+  File.prototype.toUrl = function () {
     var file = this;
-    return (file.protocol || "") + (file.path || "") + file.name + (extension || ".js");
+    return (file.protocol || "") + (file.path || "") + file.name;
   };
 
   /**
@@ -130,6 +130,26 @@
       name: fileName,
       path: pathName
     };
+  };
+
+  /**
+   * Method to add an extension if one does not exist in the fileString.  It does NOT replace
+   * the file extension if one already exists in `fileString`.
+   *
+   * @param {string} fileString - File string to add the extension to if one does not exist
+   * @param {string} extension - Extension to add if one does not exist in `fileString`. The
+   *   value is the extension without the `.`. E.g. `js`, `html`.  Not `.js`, `.html`.
+   * @returns {string} New fileString with the new extension if one did not exist
+   */
+  File.addExtension = function(fileString, extension) {
+    var fileName  = File.parseFileName(fileString),
+        fileParts = fileName.name.split(".");
+
+    if (fileParts.length === 1 && extension) {
+      fileParts.push(extension);
+    }
+
+    return fileName.path + fileParts.join(".");
   };
 
   /**

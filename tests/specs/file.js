@@ -65,6 +65,24 @@ define(["dist/resolver"], function(Resolver) {
     });
 
 
+    describe("when addExtension", function() {
+      it("then `test/file.html` is `test/file.html", function() {
+        var fileString = File.addExtension("test/file.html", "badextension");
+        expect(fileString).to.equal("test/file.html");
+      });
+
+      it("then `test/file.ext1.html` is `test/file.ext1.html", function() {
+        var fileString = File.addExtension("test/file.ext1.html", "badextension");
+        expect(fileString).to.equal("test/file.ext1.html");
+      });
+
+      it("then `test/file` is `test/file.js", function() {
+        var fileString = File.addExtension("test/file", "js");
+        expect(fileString).to.equal("test/file.js");
+      });
+    });
+
+
     describe("Merge path", function() {
       it("no path, simple base", function() {
         var path = File.mergePaths("", "/path");

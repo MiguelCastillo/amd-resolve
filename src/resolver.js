@@ -21,7 +21,7 @@
    * @returns {{name: string, file: File, urlArgs: string, shim: object}}
    */
   Resolver.prototype.resolve = function(name) {
-    var i, length, pkg, shim;
+    var i, length, pkg, pkgParts, pkgName, pkgTarget, shim;
     var settings = this.settings,
         shims    = settings.shim || {},
         packages = settings.packages || [],
@@ -29,18 +29,22 @@
         plugins  = name.split("!");
 
     // The last item is the actual module name.
-    name = plugins.pop();
+    name      = plugins.pop();
+    pkgParts  = name.replace(/[\/\\]+/g, "/").split("/");
+    pkgName   = pkgParts.shift();
+    pkgTarget = pkgParts.join("/");
 
     // Go through the packages and figure if the module is actually configured as such.
     for (i = 0, length = packages.length; i < length; i++) {
       pkg = packages[i];
-      if (pkg === name) {
-        fileName = name + "/" + "main";
+
+      if (pkg === pkgName) {
+        fileName = pkgName + "/" + "main";
         break;
       }
-      else if (pkg.name === name) {
+      else if (pkg.name === pkgName) {
         fileName = pkg.location ? (pkg.location + "/") : "";
-        fileName += name + "/" + (pkg.main || "main");
+        fileName += pkgName + "/" + (pkgTarget || (pkg.main || "main"));
         break;
       }
     }
@@ -54,7 +58,7 @@
 
     return {
       name: name,
-      file: new File(fileName, settings.baseUrl),
+      file: new File(File.addExtension(fileName, "js"), settings.baseUrl),
       urlArgs: settings.urlArgs,
       shim: shim,
       plugins: plugins

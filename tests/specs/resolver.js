@@ -11,7 +11,7 @@ define(["dist/resolver"], function(Resolver) {
             }, {
               "location": "good/tests",
               "main": "index",
-              "name": "js"
+              "name": "assets"
             }, {
               "location": "good/tests",
               "name": "lib"
@@ -31,7 +31,7 @@ define(["dist/resolver"], function(Resolver) {
         });
       });
 
-      describe("When processing package 'package2'", function() {
+      describe("And processing package 'package2'", function() {
         var moduleMeta;
         beforeEach(function() {
           moduleMeta = resolver.resolve("package2");
@@ -42,7 +42,7 @@ define(["dist/resolver"], function(Resolver) {
         });
       });
 
-      describe("When processing package 'lib'", function() {
+      describe("And processing package 'lib'", function() {
         var moduleMeta;
         beforeEach(function() {
           moduleMeta = resolver.resolve("lib");
@@ -53,14 +53,20 @@ define(["dist/resolver"], function(Resolver) {
         });
       });
 
-      describe("When processing package 'js'", function() {
-        var moduleMeta;
-        beforeEach(function() {
-          moduleMeta = resolver.resolve("js");
+      describe("And processing package `assets`", function() {
+        it("then resolving package `assets` is `good/tests/assets/index.js`", function() {
+          var moduleMeta = resolver.resolve("assets");
+          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/index.js");
         });
 
-        it("then package is 'good/tests/js/index.js'", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/js/index.js");
+        it("then resolving `assets/library/mod` is 'good/tests/assets/library/mod.js'", function() {
+          var moduleMeta = resolver.resolve("assets/library/mod");
+          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/mod.js");
+        });
+
+        it("then resolving `assets/library/template.html` is 'good/tests/assets/library/template.html'", function() {
+          var moduleMeta = resolver.resolve("assets/library/template.html");
+          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/template.html");
         });
       });
     });
