@@ -10,9 +10,9 @@ Resolver - provides the means to convert a module name to a module meta object. 
 
 @param {object} `options` - is a configuration object for properly creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
 
-- @property {string} `baseUrl` - path every URL that is created is relative to.
+- @property {string} `baseUrl` - path every file is relative to.
 
-- @property {object} `paths` - is an object with key value pairs to define alias names to files.  These alias are used by the resolver to create a proper url from the name of the module.
+- @property {object} `paths` - is an object with key value pairs to map module names to files.
 
   For example, if you wanted to have a module called `md5` and you wanted to map that to the location of the actual file, you can define the following:
 
@@ -24,24 +24,24 @@ Resolver - provides the means to convert a module name to a module meta object. 
   }
   ```
 
-  That will tell the resolver the location for `md5` to create a proper url.
+  That will tell the resolver the location for `md5` to create a proper file object that points to `path/to/file/module`.
 
-- @property {array} `packages` - is an array for defining directory aliases to module files. Think npm packages that have an `index.js` or a `main.js`.
+- @property {array} `packages` - is an array for defining directory aliases to files. Think npm packages that have an `index.js` or a `main.js`.
 
   A package can just be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving that package will generate a url to `machinge/main.js`.
 
-  Alternatively, a package can be an object used for more granual control of the resolution process. The following properties properties are supported:
+  Alternatively, a package can be an object used for more granual control of the resolution process. The following properties are supported:
 
   - @property {string} `location` - which is the location on disk.
-  - @property {string} `main` - file name. Define if `main.js` is not the proper module file.
+  - @property {string} `main` - file name. Define if `main.js` is not the correct file.
   - @property {string} `name` - package name.
 
 
-- @property {object} `shim` - maps code in the global object to modules. This is primarily used when code is loaded does that not support an AMD system so the code is in the global space.  An example of this is Backbone.  So, in order to consume Backbone as a module dependency, we need to know how to find it in the global object and possibly dependencies.
+- @property {object} `shim` - maps code in the global object to modules.  An example of this is `Backbone`.  So, in order to consume `Backbone` as a dependency in your module, resolver needs to know how to find it in the global object, and load its dependencies (`underscore`).
 
   Shims provides two options
-  - @property {string} `exports | name` - The name of the code in the global object. Preferred name is `exports`.
-  - @property {array} `imports | deps` - List of dependencies.  This is important when the shim needs certain code to be loaded before the shim itself. Preferred name is `imports`.
+  - @property {string} `exports | name` - The name of the code in the global object.
+  - @property {array} `imports | deps` - List of dependencies.  This is important when the shim needs certain code to be loaded before the shim itself.
 
 
 ##### example
@@ -79,14 +79,14 @@ var resolver = new Resolver({
 
 Creates a module meta object.
 
-@param {string} `name` - Name of the module to create a module meta object. The name can be formatted with plugins such as `css!filename.css`.
+@param {string} `name` - Name of the module to create a module meta object for. The name can be formatted with plugins such as `css!filename.css`.
 
 @returns {object} module meta
 
-  - @property {string} `name` - is the name of the module being resolved.
-  - @property {File} `file` - is the object that can generate a URL to request the module code from a remote server.
-  - @property {string} `urlArgs` - cgi parameters to be used when requesting the module code from a remote server.
-  - @property {array} `plugins` - array of strings created from the name to be resolved.  Anything that is delimited with `!` will be processed as a plugin.
+  - @property {string} `name` - is the name of the module being resolved. Plugin definitions are stripped out.
+  - @property {File} `file` - is the object that can generate a URL to request the module file from a remote server.
+  - @property {string} `urlArgs` - cgi parameters to be used when requesting the module file from a remote server.
+  - @property {array} `plugins` - array of strings created from the module name.  Anything at the beginning of the module name that is delimited with `!` will be treated as a plugin.
   - @property {object} `shim` - which is the an object containing information about the module as it exists in the global object. `shim` can specify a couple of things.
     - @property {string} `name` - which is the name the shim has in the global space.
     - @property {array} `deps` - which is an array of string of dependencies that need to be loaded before the shim.
