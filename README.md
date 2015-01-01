@@ -10,7 +10,7 @@ Resolver - provides the means to convert a module name to a module meta object. 
 
 @param {object} `options` - is a configuration object for properly creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
 
-- @property {string} `baseUrl` - path every file is relative to.
+- @property {string} `baseUrl` - path that every file is relative to.
 
 - @property {object} `paths` - is an object with key value pairs to map module names to files.
 
@@ -24,20 +24,20 @@ Resolver - provides the means to convert a module name to a module meta object. 
   }
   ```
 
-  That will tell the resolver the location for `md5` to create a proper file object that points to `path/to/file/module`.
+  That will tell resolver the location for `md5` to create a proper file object that points to `path/to/file/module.js`.
 
 - @property {array} `packages` - is an array for defining directory aliases to files. Think npm packages that have an `index.js` or a `main.js`.
 
   A package can just be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving that package will generate a url to `machinge/main.js`.
 
-  Alternatively, a package can be an object used for more granual control of the resolution process. The following properties are supported:
+  Alternatively, a package can be an object that gives more granual control of the resolution process. The following properties are supported:
 
   - @property {string} `location` - which is the location on disk.
-  - @property {string} `main` - file name. Define if `main.js` is not the correct file.
+  - @property {string} `main` - file name. Provide one if the module file is other than `main.js`.
   - @property {string} `name` - package name.
 
 
-- @property {object} `shim` - maps code in the global object to modules.  An example of this is `Backbone`.  So, in order to consume `Backbone` as a dependency in your module, resolver needs to know how to find it in the global object, and load its dependencies (`underscore`).
+- @property {object} `shim` - maps code in the global object to modules.  An example of this is `Backbone`, which is loaded into the global object.  So, in order to consume `Backbone` as a dependency in your module, resolver needs to know how to find it in the global object and also know its dependencies (`underscore`).
 
   Shims provides two options
   - @property {string} `exports | name` - The name of the code in the global object.
