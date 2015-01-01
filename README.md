@@ -1,7 +1,7 @@
 amd-resolver
 ===========
 
-Resolve AMD module names to a module meta with a File object that is suitable to run in the browser.
+Resolve AMD module names to File objects suitable to run in the Browser.
 
 ### API
 
