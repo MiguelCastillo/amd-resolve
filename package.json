@@ -1,7 +1,7 @@
 {
   "name": "amd-resolver",
-  "version": "0.0.8",
-  "description": "Resolve AMD module names to File objects",
+  "version": "0.0.9",
+  "description": "Resolve AMD module names to File objects suitable to run in the Browser",
   "main": "dist/resolver.js",
   "scripts": {
     "prepublish": "browserify src/resolver.js -o dist/resolver.js -s amd-resolver --dg false",
