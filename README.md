@@ -101,15 +101,15 @@ var mochaModuleMeta    = resolver.resolve("mocha"),
 ```
 
 Urls
-```
-var mochaUrl    = mochaModuleMeta.file.toUrl(),      // url === "../node_modules/mocha/mocha.js"
-    package1Url = package1ModuleMeta.file.toUrl(),   // url === "package1/index.js"
-    cssUrl      = cssModuleMeta.file.toUrl();        // url === "path/to/file.less"
+``` javascript
+var mochaUrl    = mochaModuleMeta.file.toUrl(),    // url === "../node_modules/mocha/mocha.js"
+    package1Url = package1ModuleMeta.file.toUrl(), // url === "package1/index.js"
+    cssUrl      = cssModuleMeta.file.toUrl();      // url === "path/to/file.less"
 ```
 
 Plugins
 ``` javascript
-var cssPlugins = cssModuleMeta.plugins;  // plugins === ["css", "less"]
+var cssPlugins = cssModuleMeta.plugins; // plugins === ["css", "less"]
 ```
 
 Shim
