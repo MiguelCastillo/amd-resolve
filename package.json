@@ -2,9 +2,9 @@
   "name": "amd-resolver",
   "version": "0.0.10",
   "description": "Resolve AMD module names to File objects suitable to run in the Browser",
-  "main": "dist/resolver.js",
+  "main": "dist/amd-resolver.js",
   "scripts": {
-    "prepublish": "browserify src/resolver.js -o dist/resolver.js -s amd-resolver --dg false",
+    "prepublish": "browserify src/resolver.js -o dist/amd-resolver.js -s amd-resolver --dg false",
     "test": "grunt test"
   },
   "repository": {
