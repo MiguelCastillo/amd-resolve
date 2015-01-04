@@ -1,4 +1,4 @@
-amd-resolver
+amd-resolver [![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver)
 ===========
 
 Resolve AMD module names to File objects suitable to run in the Browser.
