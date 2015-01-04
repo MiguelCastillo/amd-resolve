@@ -31,11 +31,45 @@ module.exports = function(grunt) {
           urls: ["http://localhost:8512/tests/SpecRunner.html"]
         }
       }
+    },
+    browserify: {
+      // browserify src/resolver.js -o dist/amd-resolver.js -s amd-resolver --dg false
+      options: {
+        browserifyOptions: {
+          detectGlobals: false,
+          standalone: "amd-resolver"
+        }
+      },
+      dev: {
+        options: {
+          browserifyOptions: {
+            debug: true
+          }
+        },
+        src: "src/resolver.js",
+        dest: "dist/amd-resolver.js"
+      },
+      production: {
+        src: "src/resolver.js",
+        dest: "dist/amd-resolver.js"
+      }
+    },
+    watch: {
+      browserify: {
+        files: "src/**/*.js",
+        tasks: "browserify:dev"
+      }
     }
   });
 
   grunt.loadNpmTasks("grunt-mocha");
+  grunt.loadNpmTasks("grunt-browserify");
   grunt.loadNpmTasks("grunt-contrib-connect");
+  grunt.loadNpmTasks("grunt-contrib-watch");
+
   grunt.registerTask("server", ["connect:keepalive"]);
   grunt.registerTask("test", ["connect:test", "mocha:test"]);
+  grunt.registerTask("compile-dev", ["browserify:dev"]);
+  grunt.registerTask("compile-production", ["browserify:production"]);
+  grunt.registerTask("watch-sources", ["watch:browserify"]);
 };
