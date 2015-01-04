@@ -1,4 +1,4 @@
-define(["dist/resolver"], function(Resolver) {
+define(["dist/amd-resolver"], function(Resolver) {
   var File = Resolver.File;
 
   describe("File", function() {
