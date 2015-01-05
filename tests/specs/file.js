@@ -1,4 +1,4 @@
-define(["dist/resolver"], function(Resolver) {
+define(["dist/amd-resolver"], function(Resolver) {
   var File = Resolver.File;
 
   describe("File", function() {
@@ -65,20 +65,71 @@ define(["dist/resolver"], function(Resolver) {
     });
 
 
-    describe("when addExtension", function() {
-      it("then `test/file.html` is `test/file.html", function() {
-        var fileString = File.addExtension("test/file.html", "badextension");
-        expect(fileString).to.equal("test/file.html");
+    describe("addExtension", function() {
+      describe("when adding extension to file with existing extension(s)", function () {
+        it("then `test/file.html` is `test/file.html`", function() {
+          var fileString = File.addExtension("test/file.html", "js");
+          expect(fileString).to.equal("test/file.html");
+        });
+
+        it("then `test/file.ext1.html` is `test/file.ext1.html`", function() {
+          var fileString = File.addExtension("test/file.ext1.html", "js");
+          expect(fileString).to.equal("test/file.ext1.html");
+        });
+
+        it("then `test/.file.ext1.html` is `test/.file.ext1.html`", function() {
+          var fileString = File.addExtension("test/.file.ext1.html", "js");
+          expect(fileString).to.equal("test/.file.ext1.html");
+        });
       });
 
-      it("then `test/file.ext1.html` is `test/file.ext1.html", function() {
-        var fileString = File.addExtension("test/file.ext1.html", "badextension");
-        expect(fileString).to.equal("test/file.ext1.html");
+      describe("when adding extension to file without existing extension()", function () {
+        it("then `test/file` is `test/file.js", function() {
+          var fileString = File.addExtension("test/file", "js");
+          expect(fileString).to.equal("test/file.js");
+        });
+      });
+    });
+
+
+    describe("when calling replaceExtension", function() {
+      describe("when replacing extension in file path with existing extension(s)", function () {
+        it("then `test/file.html` is `test/file.js`", function() {
+          var fileString = File.replaceExtension("test/file.html", "js");
+          expect(fileString).to.equal("test/file.js");
+        });
+
+        it("then `test/file.ext1.html` is `test/file.ext1.js`", function() {
+          var fileString = File.replaceExtension("test/file.ext1.html", "js");
+          expect(fileString).to.equal("test/file.ext1.js");
+        });
+
+        it("then `test/.file.ext1.html` is `test/.file.ext1.js`", function() {
+          var fileString = File.replaceExtension("test/.file.ext1.html", "js");
+          expect(fileString).to.equal("test/.file.ext1.js");
+        });
+
+        it("then `test/.test/.file.ext1.html` is `test/.test/.file.ext1.js`", function() {
+          var fileString = File.replaceExtension("test/.test/.file.ext1.html", "js");
+          expect(fileString).to.equal("test/.test/.file.ext1.js");
+        });
       });
 
-      it("then `test/file` is `test/file.js", function() {
-        var fileString = File.addExtension("test/file", "js");
-        expect(fileString).to.equal("test/file.js");
+      describe("when replacing extension in file paths without existing extension()", function () {
+        it("then `test/file` is `test/file.js", function() {
+          var fileString = File.replaceExtension("test/file", "js");
+          expect(fileString).to.equal("test/file.js");
+        });
+
+        it("then `test/.file` is `test/.file.js", function() {
+          var fileString = File.replaceExtension("test/.file", "js");
+          expect(fileString).to.equal("test/.file.js");
+        });
+
+        it("then `test/.test/.file` is `test/.test/.file`", function() {
+          var fileString = File.replaceExtension("test/.test/.file", "js");
+          expect(fileString).to.equal("test/.test/.file.js");
+        });
       });
     });
 

@@ -1,4 +1,4 @@
-define(["dist/resolver"], function(Resolver) {
+define(["dist/amd-resolver"], function(Resolver) {
 
   describe("Resolver Suite", function() {
     describe("When Resolver is configured with `packages`", function() {
