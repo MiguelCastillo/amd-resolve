@@ -71,6 +71,17 @@ module.exports = function(grunt) {
         jshintrc: true
       }
     },
+    uglify: {
+      release: {
+        options: {
+          report: "gzip", // Reports both gzip and minified
+          sourceMap: true
+        },
+        files: {
+          "dist/amd-resolver.min.js": ["dist/amd-resolver.js"]
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks("grunt-mocha");
@@ -78,11 +89,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-connect");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
 
   grunt.registerTask("server", ["connect:keepalive"]);
   grunt.registerTask("test", ["connect:test", "mocha:test"]);
   grunt.registerTask("lint", ["jshint"]);
   grunt.registerTask("build-debug", ["jshint", "browserify:debug"]);
-  grunt.registerTask("build-release", ["jshint", "browserify:release"]);
+  grunt.registerTask("build-release", ["jshint", "browserify:release", "uglify:release"]);
   grunt.registerTask("watch-sources", ["watch:browserify"]);
 };
