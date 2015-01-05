@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           standalone: "amd-resolver"
         }
       },
-      dev: {
+      debug: {
         options: {
           browserifyOptions: {
             debug: true
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         src: "src/resolver.js",
         dest: "dist/amd-resolver.js"
       },
-      production: {
+      release: {
         src: "src/resolver.js",
         dest: "dist/amd-resolver.js"
       }
@@ -57,19 +57,32 @@ module.exports = function(grunt) {
     watch: {
       browserify: {
         files: "src/**/*.js",
-        tasks: "browserify:dev"
+        tasks: "build-debug"
       }
-    }
+    },
+    jshint: {
+      all: [
+        "Gruntfile.js",
+        "src/**/*.js",
+        "tests/**/*.js"
+      ],
+      options: {
+        reporter: require("jshint-stylish"),
+        jshintrc: true
+      }
+    },
   });
 
   grunt.loadNpmTasks("grunt-mocha");
   grunt.loadNpmTasks("grunt-browserify");
   grunt.loadNpmTasks("grunt-contrib-connect");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-contrib-jshint");
 
   grunt.registerTask("server", ["connect:keepalive"]);
   grunt.registerTask("test", ["connect:test", "mocha:test"]);
-  grunt.registerTask("compile-dev", ["browserify:dev"]);
-  grunt.registerTask("compile-production", ["browserify:production"]);
+  grunt.registerTask("lint", ["jshint"]);
+  grunt.registerTask("build-debug", ["jshint", "browserify:debug"]);
+  grunt.registerTask("build-release", ["jshint", "browserify:release"]);
   grunt.registerTask("watch-sources", ["watch:browserify"]);
 };
