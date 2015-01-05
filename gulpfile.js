@@ -13,6 +13,8 @@ gulp.task("test-browser", ["build-debug"], function() {
       livereload: true,
       open: "tests/SpecRunner.html"
     }));
+
+  gulp.watch("src/**/*.js", ["build-debug"]);
 });
 
 var browserify = require("browserify");
