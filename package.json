@@ -4,8 +4,8 @@
   "description": "Resolve AMD module names to File objects suitable to run in the Browser",
   "main": "dist/amd-resolver.js",
   "scripts": {
-    "prepublish": "grunt build-release",
-    "test": "grunt test"
+    "prepublish": "gulp build-release",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -20,16 +20,17 @@
   "devDependencies": {
     "browserify": "~8.0.2",
     "chai": "~1.10.0",
-    "grunt": "~0.4.5",
-    "grunt-browserify": "^3.2.1",
-    "grunt-contrib-connect": "~0.9.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "^0.7.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-mocha": "~0.4.11",
+    "gulp": "^3.8.10",
+    "gulp-jshint": "^1.9.0",
+    "gulp-mocha-phantomjs": "^0.5.3",
+    "gulp-webserver": "^0.9.0",
     "jshint-stylish": "^1.0.0",
+    "minifyify": "^5.0.0",
     "mocha": "~2.1.0",
-    "requirejs": "~2.1.15"
+    "mocha-phantomjs": "^3.5.2",
+    "phantomjs": "^1.9.13",
+    "requirejs": "~2.1.15",
+    "vinyl-source-stream": "^1.0.0"
   },
   "directories": {
     "test": "tests"

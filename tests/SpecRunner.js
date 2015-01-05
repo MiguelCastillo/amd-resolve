@@ -11,5 +11,11 @@ define([
   require([
     "tests/specs/file",
     "tests/specs/resolver"
-  ], mocha.run);
+  ], function () {
+    if (window.mochaPhantomJS) {
+      window.mochaPhantomJS.run();
+    } else {
+      mocha.run();
+    }
+  });
 });
