@@ -153,6 +153,24 @@
   };
 
   /**
+   * Method to replace an extension, if one does not exist in the file string, it will be added.
+   *
+   * @param {string} fileString - File string to add the extension to if one does not exist
+   * @param {string} extension - Extension to be either added to `fileString` or to replace the extension in `fileString`. The
+   *   value is the extension without the `.`. E.g. `js`, `html`.  Not `.js`, `.html`.
+   * @returns {string} fileString with the new extension
+   */
+  File.replaceExtension = function(fileString, extension) {
+    var regex = /([^.\/\\]+\.)[^.]+$/;
+    if (fileString.match(regex)) {
+      return fileString.replace(regex, "$1" + extension);
+    }
+    else {
+      return fileString + "." + extension;
+    }
+  };
+
+  /**
    * Removes all forward and back slashes to forward slashes as well as all duplicates slashes
    * and resolve all . and .. in the path.
    * @param {string} path - Path to normalize
