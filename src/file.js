@@ -127,7 +127,7 @@
     });
 
     return {
-      name: fileName,
+      name: fileName || "",
       path: pathName
     };
   };
