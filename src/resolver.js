@@ -58,6 +58,7 @@
 
     return {
       name: name,
+      deps: [],
       file: new File(File.addExtension(fileName, "js"), settings.baseUrl),
       urlArgs: settings.urlArgs,
       shim: shim,
