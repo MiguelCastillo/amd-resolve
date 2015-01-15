@@ -2,71 +2,132 @@ define(["dist/amd-resolver"], function(Resolver) {
   var File = Resolver.File;
 
   describe("File", function() {
-    describe("object", function() {
-      it("simple path, no base", function() {
+    describe("when creating an instance", function() {
+      describe("with a simple path, and no base", function() {
         var file = new File("/path", "");
-        expect(file.protocol).to.be.an('undefined');
-        expect(file.name).to.equal("path");
-        expect(file.path).to.equal("/");
+
+        it("then the protocol will be undefined", function() {
+          expect(file.protocol).to.be.an('undefined');
+        });
+
+        it("then the file name is `path`", function() {
+          expect(file.name).to.equal("path");
+        });
+
+        it("then the file path is `/`", function() {
+          expect(file.path).to.equal("/");
+        });
       });
 
-      it("simple path with simple base", function() {
+      describe("with a simple path and a simple base", function() {
         var file = new File("path", "baseuri");
-        expect(file.protocol).to.be.an('undefined');
-        expect(file.name).to.equal("path");
-        expect(file.path).to.equal("baseuri/");
+
+        it("then the protocol with be undefined", function() {
+          expect(file.protocol).to.be.an('undefined');
+        });
+
+        it("then the file name is `path`", function() {
+          expect(file.name).to.equal("path");
+        });
+
+        it("then the file path is `baseuri/`", function() {
+          expect(file.path).to.equal("baseuri/");
+        });
       });
 
-      it("module with leading double dot and a longer path", function() {
+      describe("with a module with leading double dot and a longer base", function() {
         var file = new File("../module1", "baseuri/path1/path2");
-        expect(file.protocol).to.be.an('undefined');
-        expect(file.name).to.equal("module1");
-        expect(file.path).to.equal("baseuri/path1/");
+
+        it("then the protocol will be undefined", function() {
+          expect(file.protocol).to.be.an('undefined');
+        });
+
+        it("then the file name is `module1`", function() {
+          expect(file.name).to.equal("module1");
+        });
+
+        it("then the file path is `baseuri/path1/`", function() {
+          expect(file.path).to.equal("baseuri/path1/");
+        });
       });
     });
 
 
-    describe("parseFileName", function() {
-      it("Simple file", function() {
+    describe("when calling parseFileName", function() {
+      describe("with a simple file path", function() {
         var fileName = File.parseFileName("/mortarjs.html");
-        expect(fileName.name).to.equal("mortarjs.html");
-        expect(fileName.path).to.equal("/");
+
+        it("then the file name is `mortarjs.html`", function() {
+          expect(fileName.name).to.equal("mortarjs.html");
+        });
+
+        it("then the file path is `/`", function() {
+          expect(fileName.path).to.equal("/");
+        });
       });
 
-      it("Starting dot directory", function() {
+      describe("with a leading dot directory", function() {
         var fileName = File.parseFileName("./mortarjs.html");
-        expect(fileName.name).to.equal("mortarjs.html");
-        expect(fileName.path).to.equal("./");
+
+        it("then the file name is `mortarjs.html`", function() {
+          expect(fileName.name).to.equal("mortarjs.html");
+        });
+
+        it("then the file path is `./`", function() {
+          expect(fileName.path).to.equal("./");
+        });
       });
 
-      it("Just file", function() {
+      describe("with just a file", function() {
         var fileName = File.parseFileName("mortarjs.html");
-        expect(fileName.name).to.equal("mortarjs.html");
-        expect(fileName.path).to.equal("");
+
+        it("then the file name is `mortarjs.html`", function() {
+          expect(fileName.name).to.equal("mortarjs.html");
+        });
+
+        it("then the file path is an empty string", function() {
+          expect(fileName.path).to.equal("");
+        });
       });
 
-      it("Starting dot file", function() {
+      describe("with a leading dot file", function() {
         var fileName = File.parseFileName(".mortarjs.html");
-        expect(fileName.name).to.equal(".mortarjs.html");
-        expect(fileName.path).to.equal("");
+        it("then the file name is `.mortarjs.html`", function() {
+          expect(fileName.name).to.equal(".mortarjs.html");
+        });
+
+        it("then the file path is an empty string", function() {
+          expect(fileName.path).to.equal("");
+        });
       });
 
-      it("Deep path file", function() {
+      describe("with a deep path file", function() {
         var fileName = File.parseFileName("/this/is/a/looong/path/to/the/file/mortarjs.html");
-        expect(fileName.name).to.equal("mortarjs.html");
-        expect(fileName.path).to.equal("/this/is/a/looong/path/to/the/file/");
+        it("then the file name is equal to `mortarjs.html`", function() {
+          expect(fileName.name).to.equal("mortarjs.html");
+        });
+
+        it("then the file path is `/this/is/a/looong/path/to/the/file/`", function() {
+          expect(fileName.path).to.equal("/this/is/a/looong/path/to/the/file/");
+        });
       });
 
-      it("Deep path with dot leading file", function() {
+      describe("with a deep path and leading dot file", function() {
         var fileName = File.parseFileName("/this/is/a/looong/path/to/the/file/.mortarjs.html");
-        expect(fileName.name).to.equal(".mortarjs.html");
-        expect(fileName.path).to.equal("/this/is/a/looong/path/to/the/file/");
+
+        it("then the file name is equal to `.mortarjs.html`", function() {
+          expect(fileName.name).to.equal(".mortarjs.html");
+        });
+
+        it("then the file path is equal to `/this/is/a/looong/path/to/the/file/`", function() {
+          expect(fileName.path).to.equal("/this/is/a/looong/path/to/the/file/");
+        });
       });
     });
 
 
-    describe("addExtension", function() {
-      describe("when adding extension to file with existing extension(s)", function () {
+    describe("when calling addExtension", function() {
+      describe("when adding extension to file with existing extension", function() {
         it("then `test/file.html` is `test/file.html`", function() {
           var fileString = File.addExtension("test/file.html", "js");
           expect(fileString).to.equal("test/file.html");
@@ -83,7 +144,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
       });
 
-      describe("when adding extension to file without existing extension()", function () {
+      describe("when adding extension to file without existing extension", function() {
         it("then `test/file` is `test/file.js", function() {
           var fileString = File.addExtension("test/file", "js");
           expect(fileString).to.equal("test/file.js");
@@ -93,7 +154,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
 
     describe("when calling replaceExtension", function() {
-      describe("when replacing extension in file path with existing extension(s)", function () {
+      describe("when replacing extension in file path with existing extension", function() {
         it("then `test/file.html` is `test/file.js`", function() {
           var fileString = File.replaceExtension("test/file.html", "js");
           expect(fileString).to.equal("test/file.js");
@@ -115,7 +176,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
       });
 
-      describe("when replacing extension in file paths without existing extension()", function () {
+      describe("when replacing extension in file paths without existing extension", function() {
         it("then `test/file` is `test/file.js", function() {
           var fileString = File.replaceExtension("test/file", "js");
           expect(fileString).to.equal("test/file.js");
@@ -134,158 +195,380 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("Merge path", function() {
-      it("no path, simple base", function() {
+    describe("when calling mergePaths", function() {
+      describe("with no path and a simple base", function() {
         var path = File.mergePaths("", "/path");
-        expect(path).to.equal("/path");
+
+        it("then the path is `/path`", function() {
+          expect(path).to.equal("/path");
+        });
       });
 
-      it("simple path, no base", function() {
-        var path = File.mergePaths("/path");
-        expect(path).to.equal("/path");
+      describe("with a simple path", function() {
+        describe("and no base", function() {
+          var path = File.mergePaths("/path");
+
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
+
+        describe("and an empty base", function() {
+          var path = File.mergePaths("/path", "");
+
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
+
+        describe("and a simple base", function() {
+          var path = File.mergePaths("/path", "/");
+
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
+
+        describe("and a dotted base path", function() {
+          var path = File.mergePaths("/path", "../../test1/test2");
+
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
       });
 
-      it("simple path, empty base", function() {
-        var path = File.mergePaths("/path", "");
-        expect(path).to.equal("/path");
-      });
-
-      it("simple path, simple base", function() {
-        var path = File.mergePaths("/path", "/");
-        expect(path).to.equal("/path");
-      });
-
-      it("path, dotted base path", function() {
-        var path = File.mergePaths("/path", "../../test1/test2");
-        expect(path).to.equal("/path");
-      });
-
-      it("relative path, simple base", function() {
+      describe("with a relative path and a simple base", function() {
         var path = File.mergePaths("./path", "/");
-        expect(path).to.equal("/path");
+
+        it("then the path is `/path`", function() {
+          expect(path).to.equal("/path");
+        });
       });
 
-      it("skip path with base", function() {
-        var path = File.mergePaths("../path", "/");
-        expect(path).to.equal("/path");
-      });
+      describe("with a dotted path", function () {
+        describe("and a simple base", function() {
+          var path = File.mergePaths("../path", "/");
 
-      it("skip path with dotted base", function() {
-        var path = File.mergePaths("../path", "./");
-        expect(path).to.equal("/path");
-      });
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
 
-      it("skip more path with base", function() {
-        var path = File.mergePaths("../../../path", "/");
-        expect(path).to.equal("/path");
-      });
+        describe("and a single dot base", function() {
+          var path = File.mergePaths("../path", "./");
 
-      it("skip more path with dotted base", function() {
-        var path = File.mergePaths("../../../path", "./");
-        expect(path).to.equal("/path");
-      });
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
 
-      it("skip path with more base", function() {
-        var path = File.mergePaths("../path", "/container/of my/child");
-        expect(path).to.equal("/container/of my/path");
-      });
+        describe("and a simple base", function() {
+          var path = File.mergePaths("../../../path", "/");
+          expect(path).to.equal("/path");
+        });
 
-      it("skip more path with more base", function() {
-        var path = File.mergePaths("../../../path", "/container/of my/child/part1/part2/part3");
-        expect(path).to.equal("/container/of my/child/path");
-      });
+        describe("and a single dot base", function() {
+          var path = File.mergePaths("../../../path", "./");
 
-      it("skip more path with more dotted base", function() {
-        var path = File.mergePaths("../../../path", "./container/of my/child/part1/part2/part3");
-        expect(path).to.equal("./container/of my/child/path");
+          it("then the path is `/path`", function() {
+            expect(path).to.equal("/path");
+          });
+        });
+
+        describe("and a complex base containing spaces", function() {
+          var path = File.mergePaths("../path", "/container/of my/child");
+
+          it("then the path is `/container/of my/path`", function() {
+            expect(path).to.equal("/container/of my/path");
+          });
+        });
+
+        describe("and a complex base containing spaces", function() {
+          var path = File.mergePaths("../../../path", "/container/of my/child/part1/part2/part3");
+
+          it("then the path is `/container/of my/child/path`", function () {
+            expect(path).to.equal("/container/of my/child/path");
+          });
+        });
+
+        describe("and a complex dotted base containing spaces", function() {
+          var path = File.mergePaths("../../../path", "./container/of my/child/part1/part2/part3");
+
+          it("then the path is `./container/of my/child/path`", function() {
+            expect(path).to.equal("./container/of my/child/path");
+          });
+        });
       });
     });
 
 
-    describe("parseUri", function() {
-      describe("HTTP", function() {
-        it("Simple url", function() {
-          var urlo = File.parseUri("http://hoistedjs.com");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.be.an('undefined');
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
-        });
+    describe("when calling parseUri", function() {
+      describe("using HTTP protocol", function() {
+        describe("and a simple url", function() {
+          describe("for `http://hoistedjs.com`", function() {
+            var parsedURI = File.parseUri("http://hoistedjs.com");
 
-        it("url with hash", function() {
-          var urlo = File.parseUri("http://hoistedjs.com#migration/topic/data");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.be.an('undefined');
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.equal("#migration/topic/data");
-        });
+            it("origin should equal `http://hoistedjs.com`", function() {
+              expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+            });
 
-        it("url with search", function() {
-          var urlo = File.parseUri("http://hoistedjs.com?topic=data");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.be.an('undefined');
-          expect(urlo.search).to.equal("?topic=data");
-          expect(urlo.hash).to.be.an('undefined');
-        });
+            it("protocol should equal `http:`", function() {
+              expect(parsedURI.protocol).to.equal("http:");
+            });
 
-        it("url with search and hash", function() {
-          var urlo = File.parseUri("http://hoistedjs.com?topic=data#migration/path");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.be.an('undefined');
-          expect(urlo.search).to.equal("?topic=data");
-          expect(urlo.hash).to.equal("#migration/path");
-        });
+            it("protocolmark should equal `//`", function() {
+              expect(parsedURI.protocolmark).to.equal("//");
+            });
 
-        it("url with search and hash and empty path", function() {
-          var urlo = File.parseUri("http://hoistedjs.com/?topic=data#migration/path");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/");
-          expect(urlo.search).to.equal("?topic=data");
-          expect(urlo.hash).to.equal("#migration/path");
-        });
+            it("hostname should equal `hoistedjs.com`", function() {
+              expect(parsedURI.hostname).to.equal("hoistedjs.com");
+            });
 
-        it("url with search and hash and simple path", function() {
-          var urlo = File.parseUri("http://hoistedjs.com/moretesting?topic=data#migration/path");
-          expect(urlo.origin).to.equal("http://hoistedjs.com");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/moretesting");
-          expect(urlo.search).to.equal("?topic=data");
-          expect(urlo.hash).to.equal("#migration/path");
-        });
+            it("port should equal undefined", function() {
+              expect(parsedURI.port).to.be.an('undefined');
+            });
 
-        it("url with search and hash and simple path with port", function() {
-          var urlo = File.parseUri("http://hoistedjs.com:599/moretesting?topic=data#migration/path");
-          expect(urlo.origin).to.equal("http://hoistedjs.com:599");
-          expect(urlo.protocol).to.equal("http:");
-          expect(urlo.protocolmark).to.equal("//");
-          expect(urlo.hostname).to.equal("hoistedjs.com");
-          expect(urlo.port).to.equal('599');
-          expect(urlo.path).to.equal("/moretesting");
-          expect(urlo.search).to.equal("?topic=data");
-          expect(urlo.hash).to.equal("#migration/path");
+            it("path should equal undefined", function() {
+              expect(parsedURI.path).to.be.an('undefined');
+            });
+
+            it("search should equal undefined", function() {
+              expect(parsedURI.search).to.be.an('undefined');
+            });
+
+            it("hash should equal undefined", function() {
+              expect(parsedURI.hash).to.be.an('undefined');
+            });
+          });
+
+          describe("with a hash", function () {
+            describe("for `http://hoistedjs.com#migration/topic/data`", function() {
+              var parsedURI = File.parseUri("http://hoistedjs.com#migration/topic/data");
+
+              it("origin should equal `http://hoistedjs.com`", function() {
+                expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+              });
+
+              it("protocol should equal `http:`", function() {
+                expect(parsedURI.protocol).to.equal("http:");
+              });
+
+              it("protocolmark should equal `//`", function() {
+                expect(parsedURI.protocolmark).to.equal("//");
+              });
+
+              it("hostname should equal `hoistedjs.com`", function() {
+                expect(parsedURI.hostname).to.equal("hoistedjs.com");
+              });
+
+              it("port should be undefined", function() {
+                expect(parsedURI.port).to.be.an('undefined');
+              });
+
+              it("path should be undefined", function() {
+                expect(parsedURI.path).to.be.an('undefined');
+              });
+
+              it("search should be undefined", function() {
+                expect(parsedURI.search).to.be.an('undefined');
+              });
+
+              it("hash should equal `#migration/topic/data`", function() {
+                expect(parsedURI.hash).to.equal("#migration/topic/data");
+              });
+            });
+          });
+
+          describe("with a search string", function() {
+            describe("for `http://hoistedjs.com?topic=data`", function() {
+              var parsedURI = File.parseUri("http://hoistedjs.com?topic=data");
+
+              it("origin should equal `http://hoistedjs.com`", function() {
+                expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+              });
+
+              it("protocol should equal `http:`", function() {
+                expect(parsedURI.protocol).to.equal("http:");
+              });
+
+              it("protocolmark should equal `//`", function() {
+                expect(parsedURI.protocolmark).to.equal("//");
+              });
+
+              it("hostname should equal `hoistedjs.com`", function() {
+                expect(parsedURI.hostname).to.equal("hoistedjs.com");
+              });
+
+              it("port should be undefined", function() {
+                expect(parsedURI.port).to.be.an('undefined');
+              });
+
+              it("path should be undefined", function() {
+                expect(parsedURI.path).to.be.an('undefined');
+              });
+
+              it("search should equal `?topic=data`", function() {
+                expect(parsedURI.search).to.equal("?topic=data");
+              });
+
+              it("hash should be undefined", function() {
+                expect(parsedURI.hash).to.be.an('undefined');
+              });
+            });
+
+            describe("and a hash", function() {
+              describe("for `http://hoistedjs.com?topic=data#migration/path`", function() {
+                var parsedURI = File.parseUri("http://hoistedjs.com?topic=data#migration/path");
+
+                it("origin should equal `http://hoistedjs.com`", function() {
+                  expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+                });
+
+                it("protocol should equal `http:`", function() {
+                  expect(parsedURI.protocol).to.equal("http:");
+                });
+
+                it("protocolmark should equal `//`", function() {
+                  expect(parsedURI.protocolmark).to.equal("//");
+                });
+
+                it("hostname should equal `hoistedjs.com`", function() {
+                  expect(parsedURI.hostname).to.equal("hoistedjs.com");
+                });
+
+                it("port should be undefined", function() {
+                  expect(parsedURI.port).to.be.an('undefined');
+                });
+
+                it("path should be undefined", function() {
+                  expect(parsedURI.path).to.be.an('undefined');
+                });
+
+                it("search should equal `?topic=data`", function() {
+                  expect(parsedURI.search).to.equal("?topic=data");
+                });
+
+                it("hash should equal `#migration/path`", function() {
+                  expect(parsedURI.hash).to.equal("#migration/path");
+                });
+              });
+
+              describe("and an empty path", function() {
+                describe("for `http://hoistedjs.com/?topic=data#migration/path`", function() {
+                  var parsedURI = File.parseUri("http://hoistedjs.com/?topic=data#migration/path");
+
+                  it("origin should equal `http://hoistedjs.com`", function() {
+                    expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+                  });
+
+                  it("protocol should equal `http:`", function() {
+                    expect(parsedURI.protocol).to.equal("http:");
+                  });
+
+                  it("protocolmark should equal `//`", function() {
+                    expect(parsedURI.protocolmark).to.equal("//");
+                  });
+
+                  it("hostname should equal `hoistedjs.com`", function() {
+                    expect(parsedURI.hostname).to.equal("hoistedjs.com");
+                  });
+
+                  it("port should be undefined", function() {
+                    expect(parsedURI.port).to.be.an('undefined');
+                  });
+
+                  it("path should equal `/`", function() {
+                    expect(parsedURI.path).to.equal("/");
+                  });
+
+                  it("search should equal `?topic=data`", function() {
+                    expect(parsedURI.search).to.equal("?topic=data");
+                  });
+
+                  it("hash should equal `#migration/path`", function() {
+                    expect(parsedURI.hash).to.equal("#migration/path");
+                  });
+                });
+              });
+
+              describe("and a simple path", function() {
+                describe("for `http://hoistedjs.com/moretesting?topic=data#migration/path`", function() {
+                  var parsedURI = File.parseUri("http://hoistedjs.com/moretesting?topic=data#migration/path");
+
+                  it("origin should equal `http://hoistedjs.com`", function() {
+                    expect(parsedURI.origin).to.equal("http://hoistedjs.com");
+                  });
+
+                  it("protocol should equal `http:`", function() {
+                    expect(parsedURI.protocol).to.equal("http:");
+                  });
+
+                  it("protocolmark should equal `//`", function() {
+                    expect(parsedURI.protocolmark).to.equal("//");
+                  });
+
+                  it("hostname should equal `hoistedjs.com`", function() {
+                    expect(parsedURI.hostname).to.equal("hoistedjs.com");
+                  });
+
+                  it("port should be undefined", function() {
+                    expect(parsedURI.port).to.be.an('undefined');
+                  });
+
+                  it("path should equal `/moretesting/`", function() {
+                    expect(parsedURI.path).to.equal("/moretesting");
+                  });
+
+                  it("search should equal `?topic=data`", function() {
+                    expect(parsedURI.search).to.equal("?topic=data");
+                  });
+
+                  it("hash should equal `#migration/path`", function() {
+                    expect(parsedURI.hash).to.equal("#migration/path");
+                  });
+                });
+
+                describe("with a port", function() {
+                  describe("for `http://hoistedjs.com:599/moretesting?topic=data#migration/path`", function() {
+                    var parsedURI = File.parseUri("http://hoistedjs.com:599/moretesting?topic=data#migration/path");
+
+                    it("origin should equal `http://hoistedjs.com:599`", function() {
+                      expect(parsedURI.origin).to.equal("http://hoistedjs.com:599");
+                    });
+
+                    it("protocol should equal `http:`", function() {
+                      expect(parsedURI.protocol).to.equal("http:");
+                    });
+
+                    it("protocolmark should equal `//`", function() {
+                      expect(parsedURI.protocolmark).to.equal("//");
+                    });
+
+                    it("hostname should equal `hoistedjs.com`", function() {
+                      expect(parsedURI.hostname).to.equal("hoistedjs.com");
+                    });
+
+                    it("port should equal `599`", function() {
+                      expect(parsedURI.port).to.equal('599');
+                    });
+
+                    it("path should equal `/moretesting`", function() {
+                      expect(parsedURI.path).to.equal("/moretesting");
+                    });
+
+                    it("search should equal `?topic=data`", function() {
+                      expect(parsedURI.search).to.equal("?topic=data");
+                    });
+
+                    it("hash should equal `#migration/path`", function() {
+                      expect(parsedURI.hash).to.equal("#migration/path");
+                    });
+                  });
+                });
+              });
+            });
+          });
         });
       });
 
@@ -489,8 +772,8 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("normalize", function() {
-      it("2 leading forward  slashes", function() {
+    describe("when calling normalize", function() {
+      it("2 leading forward slashes", function() {
         expect(File.normalize("//test")).to.equal("/test");
       });
 
@@ -536,40 +819,38 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("hasProtocol", function() {
-      it("Path with forward slash", function() {
+    describe("when calling hasProtocol", function() {
+      it("a path with a forward slash should have a protocol", function() {
         expect(File.hasProtocol("/test")).to.equal(true);
       });
 
-      it("Leading back slash", function() {
+      it("a path with a leading back slash should have a protocol", function() {
         expect(File.hasProtocol("\\test")).to.equal(true);
       });
 
-      it("Path with leading dot", function() {
+      it("a path with a leading dot should have a protocol", function() {
         expect(File.hasProtocol("./test")).to.equal(true);
       });
 
-      it("Path with 2 leading dot", function() {
+      it("a path with 2 leading dots should have a protocol", function() {
         expect(File.hasProtocol("..\\test")).to.equal(true);
       });
 
-      it("Path with no leading slash or dot", function() {
+      it("a path with no leading slash or dot should have a protocol", function() {
         expect(File.hasProtocol("test")).to.equal(true);
       });
 
-      it("Path with leading http protocol", function() {
+      it("a path with a leading http protocol should not have a protocol", function() {
         expect(File.hasProtocol("http://")).to.equal(false);
       });
 
-      it("Path with leading https protocol", function() {
+      it("a path with leading https protocol should not have a protocol", function() {
         expect(File.hasProtocol("https://")).to.equal(false);
       });
 
-      it("Path with leading file protocol", function() {
+      it("a path with leading file protocol should not have a protocol", function() {
         expect(File.hasProtocol("file:///")).to.equal(false);
       });
     });
-
   });
-
 });
