@@ -1,6 +1,18 @@
 language: node_js
 node_js:
-  - "0.10"
-
+- '0.10'
 before_install:
-  - npm install -g gulp && npm install -g grunt-cli
+- npm install -g gulp && npm install -g grunt-cli
+deploy:
+  provider: releases
+  api_key:
+    secure: s2BZWTHZhvcrE/vTB/MQmoBTT+irId1E+uh9alz5XpercH75aFu7FkjtR7ZEg8yTLyQE7SVxWzPDpnAfL09aAHL2ol6XhFKsnTNvaYPddr4kqoldg59teaEo607DJTye8tHEDsUS/+bL19TwGnkNmgN1eP4DRhw7YUHKiZfe5ZQ=
+  file: 
+    - "dist/amd-resolver.js"
+    - "dist/amd-resolver.min.js"
+    - "dist/amd-resolver.min.js.map"
+  skip_cleanup: true
+  on:
+    repo: MiguelCastillo/amd-resolver
+    tags: true
+    all_branches: true
