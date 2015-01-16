@@ -811,35 +811,35 @@ define(["dist/amd-resolver"], function(Resolver) {
 
 
     describe("when calling hasProtocol", function() {
-      it("a path with a forward slash should have a protocol", function() {
+      it("a path with a forward slash has a protocol", function() {
         expect(File.hasProtocol("/test")).to.equal(true);
       });
 
-      it("a path with a leading back slash should have a protocol", function() {
+      it("a path with a leading back slash has a protocol", function() {
         expect(File.hasProtocol("\\test")).to.equal(true);
       });
 
-      it("a path with a leading dot should have a protocol", function() {
+      it("a path with a leading dot has a protocol", function() {
         expect(File.hasProtocol("./test")).to.equal(true);
       });
 
-      it("a path with 2 leading dots should have a protocol", function() {
+      it("a path with 2 leading dots has a protocol", function() {
         expect(File.hasProtocol("..\\test")).to.equal(true);
       });
 
-      it("a path with no leading slash or dot should have a protocol", function() {
+      it("a path with no leading slash or dot has a protocol", function() {
         expect(File.hasProtocol("test")).to.equal(true);
       });
 
-      it("a path with a leading http protocol should not have a protocol", function() {
+      it("a path with a leading http protocol does not have a protocol", function() {
         expect(File.hasProtocol("http://")).to.equal(false);
       });
 
-      it("a path with leading https protocol should not have a protocol", function() {
+      it("a path with leading https protocol does not have a protocol", function() {
         expect(File.hasProtocol("https://")).to.equal(false);
       });
 
-      it("a path with leading file protocol should not have a protocol", function() {
+      it("a path with leading file protocol does not have a protocol", function() {
         expect(File.hasProtocol("file:///")).to.equal(false);
       });
     });
