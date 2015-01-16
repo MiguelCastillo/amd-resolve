@@ -30,7 +30,8 @@
     "mocha-phantomjs": "^3.5.2",
     "phantomjs": "^1.9.13",
     "requirejs": "~2.1.15",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "bit-imports": "0.0.2"
   },
   "directories": {
     "test": "tests"

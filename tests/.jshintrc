@@ -4,6 +4,7 @@
   "curly":true,
   "indent":2,
   "devel":true,
+  "browser": true,
   "globals":{
     "requirejs": true,
     "require": true,
@@ -13,6 +14,7 @@
     "mocha": true,
     "it": true,
     "expect": true,
-    "beforeEach": true
+    "beforeEach": true,
+    "Bitimports": true
   }
 }
