@@ -97,7 +97,7 @@
    * @return {boolean} if the uri has a protocol
    */
   File.hasProtocol = function (path) {
-    return /^(?:(https?|file)(:\/\/\/?))/g.test(path) === false;
+    return /^(?:(https?|file)(:\/\/\/?))/g.test(path);
   };
 
   /**

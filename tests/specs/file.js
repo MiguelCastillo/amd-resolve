@@ -811,36 +811,36 @@ define(["dist/amd-resolver"], function(Resolver) {
 
 
     describe("when calling hasProtocol", function() {
-      it("a path with a forward slash has a protocol", function() {
-        expect(File.hasProtocol("/test")).to.equal(true);
+      it("a path with a forward slash does not have a protocol", function() {
+        expect(File.hasProtocol("/test")).to.equal(false);
       });
 
-      it("a path with a leading back slash has a protocol", function() {
-        expect(File.hasProtocol("\\test")).to.equal(true);
+      it("a path with a leading back slash does not have a protocol", function() {
+        expect(File.hasProtocol("\\test")).to.equal(false);
       });
 
-      it("a path with a leading dot has a protocol", function() {
-        expect(File.hasProtocol("./test")).to.equal(true);
+      it("a path with a leading dot does not have a protocol", function() {
+        expect(File.hasProtocol("./test")).to.equal(false);
       });
 
-      it("a path with 2 leading dots has a protocol", function() {
-        expect(File.hasProtocol("..\\test")).to.equal(true);
+      it("a path with 2 leading dots does not have a protocol", function() {
+        expect(File.hasProtocol("..\\test")).to.equal(false);
       });
 
-      it("a path with no leading slash or dot has a protocol", function() {
-        expect(File.hasProtocol("test")).to.equal(true);
+      it("a path with no leading slash or dot does not have a protocol", function() {
+        expect(File.hasProtocol("test")).to.equal(false);
       });
 
-      it("a path with a leading http protocol does not have a protocol", function() {
-        expect(File.hasProtocol("http://")).to.equal(false);
+      it("a path with a leading http protocol has a protocol", function() {
+        expect(File.hasProtocol("http://")).to.equal(true);
       });
 
-      it("a path with leading https protocol does not have a protocol", function() {
-        expect(File.hasProtocol("https://")).to.equal(false);
+      it("a path with leading https protocol has a protocol", function() {
+        expect(File.hasProtocol("https://")).to.equal(true);
       });
 
-      it("a path with leading file protocol does not have a protocol", function() {
-        expect(File.hasProtocol("file:///")).to.equal(false);
+      it("a path with leading file protocol has a protocol", function() {
+        expect(File.hasProtocol("file:///")).to.equal(true);
       });
     });
   });
