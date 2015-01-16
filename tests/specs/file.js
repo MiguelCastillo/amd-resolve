@@ -309,35 +309,35 @@ define(["dist/amd-resolver"], function(Resolver) {
           describe("for `http://hoistedjs.com`", function() {
             var parsedURI = File.parseUri("http://hoistedjs.com");
 
-            it("origin should equal `http://hoistedjs.com`", function() {
+            it("origin equals `http://hoistedjs.com`", function() {
               expect(parsedURI.origin).to.equal("http://hoistedjs.com");
             });
 
-            it("protocol should equal `http:`", function() {
+            it("protocol equals `http:`", function() {
               expect(parsedURI.protocol).to.equal("http:");
             });
 
-            it("protocolmark should equal `//`", function() {
+            it("protocolmark equals `//`", function() {
               expect(parsedURI.protocolmark).to.equal("//");
             });
 
-            it("hostname should equal `hoistedjs.com`", function() {
+            it("hostname equals `hoistedjs.com`", function() {
               expect(parsedURI.hostname).to.equal("hoistedjs.com");
             });
 
-            it("port should equal undefined", function() {
+            it("port equals undefined", function() {
               expect(parsedURI.port).to.be.an('undefined');
             });
 
-            it("path should equal undefined", function() {
+            it("path equals undefined", function() {
               expect(parsedURI.path).to.be.an('undefined');
             });
 
-            it("search should equal undefined", function() {
+            it("search equals undefined", function() {
               expect(parsedURI.search).to.be.an('undefined');
             });
 
-            it("hash should equal undefined", function() {
+            it("hash equals undefined", function() {
               expect(parsedURI.hash).to.be.an('undefined');
             });
           });
@@ -346,19 +346,19 @@ define(["dist/amd-resolver"], function(Resolver) {
             describe("for `http://hoistedjs.com#migration/topic/data`", function() {
               var parsedURI = File.parseUri("http://hoistedjs.com#migration/topic/data");
 
-              it("origin should equal `http://hoistedjs.com`", function() {
+              it("origin equals `http://hoistedjs.com`", function() {
                 expect(parsedURI.origin).to.equal("http://hoistedjs.com");
               });
 
-              it("protocol should equal `http:`", function() {
+              it("protocol equals `http:`", function() {
                 expect(parsedURI.protocol).to.equal("http:");
               });
 
-              it("protocolmark should equal `//`", function() {
+              it("protocolmark equals `//`", function() {
                 expect(parsedURI.protocolmark).to.equal("//");
               });
 
-              it("hostname should equal `hoistedjs.com`", function() {
+              it("hostname equals `hoistedjs.com`", function() {
                 expect(parsedURI.hostname).to.equal("hoistedjs.com");
               });
 
@@ -374,7 +374,7 @@ define(["dist/amd-resolver"], function(Resolver) {
                 expect(parsedURI.search).to.be.an('undefined');
               });
 
-              it("hash should equal `#migration/topic/data`", function() {
+              it("hash equals `#migration/topic/data`", function() {
                 expect(parsedURI.hash).to.equal("#migration/topic/data");
               });
             });
@@ -384,19 +384,19 @@ define(["dist/amd-resolver"], function(Resolver) {
             describe("for `http://hoistedjs.com?topic=data`", function() {
               var parsedURI = File.parseUri("http://hoistedjs.com?topic=data");
 
-              it("origin should equal `http://hoistedjs.com`", function() {
+              it("origin equals `http://hoistedjs.com`", function() {
                 expect(parsedURI.origin).to.equal("http://hoistedjs.com");
               });
 
-              it("protocol should equal `http:`", function() {
+              it("protocol equals `http:`", function() {
                 expect(parsedURI.protocol).to.equal("http:");
               });
 
-              it("protocolmark should equal `//`", function() {
+              it("protocolmark equals `//`", function() {
                 expect(parsedURI.protocolmark).to.equal("//");
               });
 
-              it("hostname should equal `hoistedjs.com`", function() {
+              it("hostname equals `hoistedjs.com`", function() {
                 expect(parsedURI.hostname).to.equal("hoistedjs.com");
               });
 
@@ -408,7 +408,7 @@ define(["dist/amd-resolver"], function(Resolver) {
                 expect(parsedURI.path).to.be.an('undefined');
               });
 
-              it("search should equal `?topic=data`", function() {
+              it("search equals `?topic=data`", function() {
                 expect(parsedURI.search).to.equal("?topic=data");
               });
 
@@ -421,19 +421,19 @@ define(["dist/amd-resolver"], function(Resolver) {
               describe("for `http://hoistedjs.com?topic=data#migration/path`", function() {
                 var parsedURI = File.parseUri("http://hoistedjs.com?topic=data#migration/path");
 
-                it("origin should equal `http://hoistedjs.com`", function() {
+                it("origin equals `http://hoistedjs.com`", function() {
                   expect(parsedURI.origin).to.equal("http://hoistedjs.com");
                 });
 
-                it("protocol should equal `http:`", function() {
+                it("protocol equals `http:`", function() {
                   expect(parsedURI.protocol).to.equal("http:");
                 });
 
-                it("protocolmark should equal `//`", function() {
+                it("protocolmark equals `//`", function() {
                   expect(parsedURI.protocolmark).to.equal("//");
                 });
 
-                it("hostname should equal `hoistedjs.com`", function() {
+                it("hostname equals `hoistedjs.com`", function() {
                   expect(parsedURI.hostname).to.equal("hoistedjs.com");
                 });
 
@@ -445,11 +445,11 @@ define(["dist/amd-resolver"], function(Resolver) {
                   expect(parsedURI.path).to.be.an('undefined');
                 });
 
-                it("search should equal `?topic=data`", function() {
+                it("search equals `?topic=data`", function() {
                   expect(parsedURI.search).to.equal("?topic=data");
                 });
 
-                it("hash should equal `#migration/path`", function() {
+                it("hash equals `#migration/path`", function() {
                   expect(parsedURI.hash).to.equal("#migration/path");
                 });
               });
@@ -458,19 +458,19 @@ define(["dist/amd-resolver"], function(Resolver) {
                 describe("for `http://hoistedjs.com/?topic=data#migration/path`", function() {
                   var parsedURI = File.parseUri("http://hoistedjs.com/?topic=data#migration/path");
 
-                  it("origin should equal `http://hoistedjs.com`", function() {
+                  it("origin equals `http://hoistedjs.com`", function() {
                     expect(parsedURI.origin).to.equal("http://hoistedjs.com");
                   });
 
-                  it("protocol should equal `http:`", function() {
+                  it("protocol equals `http:`", function() {
                     expect(parsedURI.protocol).to.equal("http:");
                   });
 
-                  it("protocolmark should equal `//`", function() {
+                  it("protocolmark equals `//`", function() {
                     expect(parsedURI.protocolmark).to.equal("//");
                   });
 
-                  it("hostname should equal `hoistedjs.com`", function() {
+                  it("hostname equals `hoistedjs.com`", function() {
                     expect(parsedURI.hostname).to.equal("hoistedjs.com");
                   });
 
@@ -478,15 +478,15 @@ define(["dist/amd-resolver"], function(Resolver) {
                     expect(parsedURI.port).to.be.an('undefined');
                   });
 
-                  it("path should equal `/`", function() {
+                  it("path equals `/`", function() {
                     expect(parsedURI.path).to.equal("/");
                   });
 
-                  it("search should equal `?topic=data`", function() {
+                  it("search equals `?topic=data`", function() {
                     expect(parsedURI.search).to.equal("?topic=data");
                   });
 
-                  it("hash should equal `#migration/path`", function() {
+                  it("hash equals `#migration/path`", function() {
                     expect(parsedURI.hash).to.equal("#migration/path");
                   });
                 });
@@ -496,19 +496,19 @@ define(["dist/amd-resolver"], function(Resolver) {
                 describe("for `http://hoistedjs.com/moretesting?topic=data#migration/path`", function() {
                   var parsedURI = File.parseUri("http://hoistedjs.com/moretesting?topic=data#migration/path");
 
-                  it("origin should equal `http://hoistedjs.com`", function() {
+                  it("origin equals `http://hoistedjs.com`", function() {
                     expect(parsedURI.origin).to.equal("http://hoistedjs.com");
                   });
 
-                  it("protocol should equal `http:`", function() {
+                  it("protocol equals `http:`", function() {
                     expect(parsedURI.protocol).to.equal("http:");
                   });
 
-                  it("protocolmark should equal `//`", function() {
+                  it("protocolmark equals `//`", function() {
                     expect(parsedURI.protocolmark).to.equal("//");
                   });
 
-                  it("hostname should equal `hoistedjs.com`", function() {
+                  it("hostname equals `hoistedjs.com`", function() {
                     expect(parsedURI.hostname).to.equal("hoistedjs.com");
                   });
 
@@ -516,15 +516,15 @@ define(["dist/amd-resolver"], function(Resolver) {
                     expect(parsedURI.port).to.be.an('undefined');
                   });
 
-                  it("path should equal `/moretesting/`", function() {
+                  it("path equals `/moretesting/`", function() {
                     expect(parsedURI.path).to.equal("/moretesting");
                   });
 
-                  it("search should equal `?topic=data`", function() {
+                  it("search equals `?topic=data`", function() {
                     expect(parsedURI.search).to.equal("?topic=data");
                   });
 
-                  it("hash should equal `#migration/path`", function() {
+                  it("hash equals `#migration/path`", function() {
                     expect(parsedURI.hash).to.equal("#migration/path");
                   });
                 });
@@ -533,35 +533,35 @@ define(["dist/amd-resolver"], function(Resolver) {
                   describe("for `http://hoistedjs.com:599/moretesting?topic=data#migration/path`", function() {
                     var parsedURI = File.parseUri("http://hoistedjs.com:599/moretesting?topic=data#migration/path");
 
-                    it("origin should equal `http://hoistedjs.com:599`", function() {
+                    it("origin equals `http://hoistedjs.com:599`", function() {
                       expect(parsedURI.origin).to.equal("http://hoistedjs.com:599");
                     });
 
-                    it("protocol should equal `http:`", function() {
+                    it("protocol equals `http:`", function() {
                       expect(parsedURI.protocol).to.equal("http:");
                     });
 
-                    it("protocolmark should equal `//`", function() {
+                    it("protocolmark equals `//`", function() {
                       expect(parsedURI.protocolmark).to.equal("//");
                     });
 
-                    it("hostname should equal `hoistedjs.com`", function() {
+                    it("hostname equals `hoistedjs.com`", function() {
                       expect(parsedURI.hostname).to.equal("hoistedjs.com");
                     });
 
-                    it("port should equal `599`", function() {
+                    it("port equals `599`", function() {
                       expect(parsedURI.port).to.equal('599');
                     });
 
-                    it("path should equal `/moretesting`", function() {
+                    it("path equals `/moretesting`", function() {
                       expect(parsedURI.path).to.equal("/moretesting");
                     });
 
-                    it("search should equal `?topic=data`", function() {
+                    it("search equals `?topic=data`", function() {
                       expect(parsedURI.search).to.equal("?topic=data");
                     });
 
-                    it("hash should equal `#migration/path`", function() {
+                    it("hash equals `#migration/path`", function() {
                       expect(parsedURI.hash).to.equal("#migration/path");
                     });
                   });
