@@ -573,200 +573,191 @@ define(["dist/amd-resolver"], function(Resolver) {
       });
 
 
-      describe("FILE", function() {
-        it("Empty string", function() {
-          var urlo, _ex;
-          try {
-            urlo = File.parseUri("");
-          }
-          catch (ex) {
-            _ex = ex;
-            expect(ex.message).to.equal("Must provide a string to parse");
-          }
-          finally {
-            expect(_ex).to.be.an('object');
-            expect(urlo).to.be.an('undefined');
-          }
+      describe("using FILE protocol", function() {
+        it("with an empty string", function() {
+          var testFunction = File.parseUri.bind(File, "");
+          expect(testFunction).to.throw(Error, "Must provide a string to parse");
         });
 
-        it("Single forward slash", function() {
-          var urlo = File.parseUri("/");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+        it("with a single forward slash", function() {
+          var parsedURI = File.parseUri("/");
+
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("/");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("Single dot with forward slash", function() {
-          var urlo = File.parseUri("./");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("./");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("./");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("./");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("Single dot with multiple back slashes", function() {
-          var urlo = File.parseUri(".\\\\\\");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("./");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri(".\\\\\\");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("./");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with c: drive", function() {
-          var urlo = File.parseUri("file:///c:/program files");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("c:/program files");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:///c:/program files");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("c:/program files");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with c: drive and path", function() {
-          var urlo = File.parseUri("file:///c:/program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("c:/program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:///c:/program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("c:/program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with with no drive letter and path", function() {
-          var urlo = File.parseUri("file:////program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:////program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("/program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with with no drive letter and path starting with a single dot", function() {
-          var urlo = File.parseUri("file:///./program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("./program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:///./program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("./program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with with no drive letter with back slashes in the path starting with a single leading dot", function() {
-          var urlo = File.parseUri("file:///.\\program files\\mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("./program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:///.\\program files\\mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("./program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("with with no drive letter with back slashes in the path starting with a two leading dot", function() {
-          var urlo = File.parseUri("file:///..\\program files\\mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.equal("file:");
-          expect(urlo.protocolmark).to.equal("///");
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("../program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("file:///..\\program files\\mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.equal("file:");
+          expect(parsedURI.protocolmark).to.equal("///");
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("../program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("leading forward slash", function() {
-          var urlo = File.parseUri("/program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("/program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("/program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("leading back slash", function() {
-          var urlo = File.parseUri("\\program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("\\program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("/program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("mixed slashes", function() {
-          var urlo = File.parseUri("\\/program files//\\/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("/program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("\\/program files//\\/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("/program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("leading dot with forward slash", function() {
-          var urlo = File.parseUri("./program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("./program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("./program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("./program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("two leading dots with forward slash", function() {
-          var urlo = File.parseUri("../program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("../program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("../program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("../program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
 
         it("two leading dots with back slash", function() {
-          var urlo = File.parseUri("..\\program files/mortarjs");
-          expect(urlo.origin).to.be.an('undefined');
-          expect(urlo.protocol).to.be.an('undefined');
-          expect(urlo.protocolmark).to.be.an('undefined');
-          expect(urlo.hostname).to.be.an('undefined');
-          expect(urlo.port).to.be.an('undefined');
-          expect(urlo.path).to.equal("../program files/mortarjs");
-          expect(urlo.search).to.be.an('undefined');
-          expect(urlo.hash).to.be.an('undefined');
+          var parsedURI = File.parseUri("..\\program files/mortarjs");
+          expect(parsedURI.origin).to.be.an('undefined');
+          expect(parsedURI.protocol).to.be.an('undefined');
+          expect(parsedURI.protocolmark).to.be.an('undefined');
+          expect(parsedURI.hostname).to.be.an('undefined');
+          expect(parsedURI.port).to.be.an('undefined');
+          expect(parsedURI.path).to.equal("../program files/mortarjs");
+          expect(parsedURI.search).to.be.an('undefined');
+          expect(parsedURI.hash).to.be.an('undefined');
         });
       });
     });
