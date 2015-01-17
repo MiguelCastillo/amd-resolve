@@ -576,7 +576,7 @@ define(["dist/amd-resolver"], function(Resolver) {
       describe("using FILE protocol", function() {
         it("with an empty string", function() {
           var testFunction = File.parseUri.bind(File, "");
-          expect(testFunction).to.throw(Error, "Must provide a string to parse");
+          expect(testFunction).to.throw(TypeError, "Must provide a non-empty string to parse.");
         });
 
         it("with a single forward slash", function() {

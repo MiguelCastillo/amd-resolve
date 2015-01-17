@@ -30,8 +30,8 @@
    * Parses out uri
    */
   File.parseUri = function(uriString) {
-    if (!uriString) {
-      throw new Error("Must provide a string to parse");
+    if (uriString !== "" && typeof(uriString) === 'string') {
+      throw new TypeError("Must provide a non-empty string to parse.");
     }
 
     if (File.isHttpProtocol(uriString)) {
