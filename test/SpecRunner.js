@@ -9,8 +9,8 @@ define([
   mocha.setup("bdd");
 
   require([
-    "tests/specs/file",
-    "tests/specs/resolver"
+    "test/spec/file",
+    "test/spec/resolver"
   ], function () {
     if (window.mochaPhantomJS) {
       window.mochaPhantomJS.run();
