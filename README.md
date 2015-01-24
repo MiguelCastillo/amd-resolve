@@ -86,11 +86,11 @@ Creates a module meta object.
 
 @returns {object} module meta
 
-  - @property {string} `name` - is the name of the module being resolved. Plugin definitions are stripped out.
-  - @property {File} `file` - is the object that can generate a URL to request the module file from a remote server.
+  - @property {string} `name` - Name of the module being resolved. Plugin definitions are stripped out.
+  - @property {File} `file` - File object with a URL instance that can be used to request the module file from a remote server. For specifics on what's available in the URL instance, please see [URL Api](https://developer.mozilla.org/en-US/docs/Web/API/URL).
   - @property {string} `urlArgs` - cgi parameters to be used when requesting the module file from a remote server.
-  - @property {array} `plugins` - array of strings created from the module name.  Anything at the beginning of the module name that is delimited with `!` will be treated as a plugin.
-  - @property {object} `shim` - which is the an object containing information about the module as it exists in the global object. `shim` can specify a couple of things.
+  - @property {array} `plugins` - Array of strings created from the module name.  Anything at the beginning of the module name that is delimited with `!` will be treated as a plugin.
+  - @property {object} `shim` - Is an object containing information about modules that exist in the global object. `shim` can specify a couple of things.
     - @property {string} `name` - which is the name the shim has in the global space.
     - @property {array} `deps` - which is an array of string of dependencies that need to be loaded before the shim.
 
@@ -105,9 +105,9 @@ var mochaModuleMeta    = resolver.resolve("mocha"),
 
 Urls
 ``` javascript
-var mochaUrl    = mochaModuleMeta.file.toUrl(),    // url === "../node_modules/mocha/mocha.js"
-    package1Url = package1ModuleMeta.file.toUrl(), // url === "package1/index.js"
-    cssUrl      = cssModuleMeta.file.toUrl();      // url === "path/to/file.less"
+var mochaUrl    = mochaModuleMeta.file.url.href,    // url === "../node_modules/mocha/mocha.js"
+    package1Url = package1ModuleMeta.file.url.href, // url === "package1/index.js"
+    cssUrl      = cssModuleMeta.file.url.href;      // url === "path/to/file.less"
 ```
 
 Plugins
