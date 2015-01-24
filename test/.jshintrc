@@ -15,6 +15,7 @@
     "it": true,
     "expect": true,
     "beforeEach": true,
-    "Bitimports": true
+    "Bitimports": true,
+    "sinon": true
   }
 }

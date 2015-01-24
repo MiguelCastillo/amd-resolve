@@ -10,7 +10,8 @@ define([
 
   require([
     "test/spec/file",
-    "test/spec/resolver"
+    "test/spec/resolver",
+    "test/spec/url"
   ], function () {
     if (window.mochaPhantomJS) {
       window.mochaPhantomJS.run();

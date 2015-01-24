@@ -1,6 +1,279 @@
 define(["dist/amd-resolver"], function(Resolver) {
 
-  describe("Resolver Suite", function() {
+  describe("Resolver Test Suite", function() {
+
+    describe("When Resolver calls `useBase`", function() {
+      it("then `filename` will not `useBase`", function() {
+        expect(Resolver.useBase("filename")).to.equal(false);
+      });
+
+      it("then `.filename` will not `useBase`", function() {
+        expect(Resolver.useBase(".filename")).to.equal(false);
+      });
+
+      it("then `/filename` will not `useBase`", function() {
+        expect(Resolver.useBase("/filename")).to.equal(false);
+      });
+
+      it("then `./filename` will `useBase`", function() {
+        expect(Resolver.useBase("./filename")).to.equal(true);
+      });
+
+      it("then `http://test/filename` will `useBase`", function() {
+        expect(Resolver.useBase("http://test/filename")).to.equal(true);
+      });
+
+      it("then `https://test/filename` will `useBase`", function() {
+        expect(Resolver.useBase("https://test/filename")).to.equal(true);
+      });
+
+      it("then `file://test/filename` will `useBase`", function() {
+        expect(Resolver.useBase("file://test/filename")).to.equal(true);
+      });
+    });
+
+
+    describe("When resolving a filename", function() {
+      var resolver;
+
+      beforeEach(function() {
+        resolver = new Resolver();
+      });
+
+      describe("and the filename is `./file`", function() {
+        var resolveResult, base, fromResolverStub, fromBaseStub;
+        beforeEach(function() {
+          base = "some base";
+          fromBaseStub     = sinon.stub(resolver, "fromBase").returns("good");
+          fromResolverStub = sinon.stub(resolver, "fromResolver").throws("TypeError");
+          resolveResult    = resolver.resolve("./file", base);
+        });
+
+        it("then `fromBase` is called once", function() {
+          expect(fromBaseStub.calledOnce).to.equal(true);
+        });
+
+        it("then `fromBase` is called with `./file`", function() {
+          expect(fromBaseStub.calledWithExactly("./file", base)).to.equal(true);
+        });
+
+        it("then `resolve` returns `good`", function() {
+          expect(resolveResult).to.equal(fromBaseStub.returnValues[0]);
+        });
+      });
+
+      describe("and the filename is `../file`", function() {
+        var resolveResult, base, fromResolverStub, fromBaseStub;
+        beforeEach(function() {
+          base = "some base";
+          fromBaseStub     = sinon.stub(resolver, "fromBase").returns("good");
+          fromResolverStub = sinon.stub(resolver, "fromResolver").throws("TypeError");
+          resolveResult    = resolver.resolve("../file", base);
+        });
+
+        it("then `fromBase` is called once", function() {
+          expect(fromBaseStub.calledOnce).to.equal(true);
+        });
+
+        it("then `fromBase` is called with `../file`", function() {
+          expect(fromBaseStub.calledWithExactly("../file", base)).to.equal(true);
+        });
+
+        it("then `resolve` returns `good`", function() {
+          expect(resolveResult).to.equal(fromBaseStub.returnValues[0]);
+        });
+      });
+
+      describe("and the filename is `file`", function() {
+        var resolveResult, base, fromResolverStub, fromBaseStub;
+        beforeEach(function() {
+          base = "some base";
+          fromBaseStub     = sinon.stub(resolver, "fromBase").throws("TypeError");
+          fromResolverStub = sinon.stub(resolver, "fromResolver").returns("good");
+          resolveResult    = resolver.resolve("file", base);
+        });
+
+        it("then `fromBase` is not called", function() {
+          expect(fromBaseStub.called).to.equal(false);
+        });
+
+        it("then `fromResolver` is called with `file`", function() {
+          expect(fromResolverStub.calledWithExactly("file")).to.equal(true);
+        });
+
+        it("then `resolve` returns `good`", function() {
+          expect(resolveResult).to.equal(fromResolverStub.returnValues[0]);
+        });
+      });
+    });
+
+
+    describe("When resolving `fromBase`", function() {
+      var resolver, result;
+      beforeEach(function() {
+        resolver = new Resolver();
+      });
+
+
+      describe("when resolving `./file` with base `good/path/`", function() {
+        var baseUrl;
+        beforeEach(function() {
+          baseUrl = "good/path/";
+          result  = resolver.fromBase("./file", baseUrl);
+        });
+
+        it("then `file.url.href` equals `good/path/file.js", function() {
+          expect(result.file.url.href).to.equal("good/path/file.js");
+        });
+      });
+
+
+      describe("when resolving `../file` with base `good/path/`", function() {
+        var baseUrl;
+        beforeEach(function() {
+          baseUrl = "good/path/";
+          result = resolver.fromBase("../file", baseUrl);
+        });
+
+        it("then `file.url.href` equals `path/file.js", function() {
+          expect(result.file.url.href).to.equal("good/file.js");
+        });
+      });
+
+
+      describe("when resolving `./file.html` with base `http://domain:92/test/`", function() {
+        beforeEach(function() {
+          result = resolver.fromBase("./file.html", "http://domain:92/test/");
+        });
+
+        it("then `file.url.href` equals `http://domain:92/test/file.html`", function() {
+          expect(result.file.url.href).to.equal("http://domain:92/test/file.html");
+        });
+      });
+    });
+
+
+    describe("When resolving `fromResolver`", function() {
+      var resolver, result;
+      beforeEach(function() {
+        resolver = new Resolver();
+      });
+
+      describe("and resolving `file`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file");
+        });
+
+        it("then `file.url.href` equals `file.js`", function() {
+          expect(result.file.url.href).to.equal("file.js");
+        });
+      });
+
+      describe("and resolving `file.html`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file.html");
+        });
+
+        it("then `file.url.href` equals `file.html`", function() {
+          expect(result.file.url.href).to.equal("file.html");
+        });
+      });
+
+      describe("and resolving `/file.html`", function() {
+        var result;
+        beforeEach(function() {
+          result = resolver.fromResolver("/file.html");
+        });
+
+        it("then `file.url.href` equals `/file.html`", function() {
+          expect(result.file.url.href).to.equal("/file.html");
+        });
+      });
+    });
+
+
+    describe("When resolving `fromResolver` with configured `baseUrl` of '../this/is/some/path'", function() {
+      var resolver, result;
+      beforeEach(function() {
+        resolver = new Resolver({
+          baseUrl: "../this/is/some/path"
+        });
+      });
+
+      describe("and resolving `file`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file");
+        });
+
+        it("then `file.url.href` equals `../this/is/some/path/file.js`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.js");
+        });
+      });
+
+      describe("and resolving `file.html`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file.html");
+        });
+
+        it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.html");
+        });
+      });
+
+      describe("and resolving `/file.html`", function() {
+        var result;
+        beforeEach(function() {
+          result = resolver.fromResolver("/file.html");
+        });
+
+        it("then `file.url.href` equals `/file.html`", function() {
+          expect(result.file.url.href).to.equal("/file.html");
+        });
+      });
+    });
+
+
+    describe("When resolving `fromResolver` with configured `baseUrl` of '../this/is/some/path/'", function() {
+      var resolver, result;
+      beforeEach(function() {
+        resolver = new Resolver({
+          baseUrl: "../this/is/some/path/"
+        });
+      });
+
+      describe("and resolving `file`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file");
+        });
+
+        it("then `file.url.href` equals `../this/is/some/path/file.js`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.js");
+        });
+      });
+
+      describe("and resolving `file.html`", function() {
+        beforeEach(function() {
+          result = resolver.fromResolver("file.html");
+        });
+
+        it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.html");
+        });
+      });
+
+      describe("and resolving `/file.html`", function() {
+        var result;
+        beforeEach(function() {
+          result = resolver.fromResolver("/file.html");
+        });
+
+        it("then `file.url.href` equals `/file.html`", function() {
+          expect(result.file.url.href).to.equal("/file.html");
+        });
+      });
+    });
+
+
     describe("When Resolver is configured with `packages`", function() {
       var resolver;
       beforeEach(function() {
@@ -27,7 +300,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
 
         it("then package is 'pacakge1/main.js'", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("pacakge1/main.js");
+          expect(moduleMeta.file.url.href).to.equal("pacakge1/main.js");
         });
       });
 
@@ -38,7 +311,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
 
         it("then package is 'package2/main.js'", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("package2/main.js");
+          expect(moduleMeta.file.url.href).to.equal("package2/main.js");
         });
       });
 
@@ -49,29 +322,29 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
 
         it("then package is 'good/tests/lib/main.js'", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/lib/main.js");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/lib/main.js");
         });
       });
 
       describe("And processing package `assets`", function() {
         it("then resolving package `assets` is `good/tests/assets/index.js`", function() {
           var moduleMeta = resolver.resolve("assets");
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/index.js");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/index.js");
         });
 
         it("then resolving `assets/library/mod` is 'good/tests/assets/library/mod.js'", function() {
           var moduleMeta = resolver.resolve("assets/library/mod");
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/mod.js");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/library/mod.js");
         });
 
         it("then resolving `assets/library/mod.js` is 'good/tests/assets/library/mod.js'", function() {
           var moduleMeta = resolver.resolve("assets/library/mod.js");
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/mod.js");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/library/mod.js");
         });
 
         it("then resolving `assets/library/template.html` is 'good/tests/assets/library/template.html'", function() {
           var moduleMeta = resolver.resolve("assets/library/template.html");
-          expect(moduleMeta.file.toUrl()).to.equal("good/tests/assets/library/template.html");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/library/template.html");
         });
       });
     });
@@ -210,8 +483,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.name).to.equal("machine");
         });
 
-        it("then moduleMeta.file.toUrl() is `path/to/module/1.js`", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("path/to/module/1.js");
+        it("then moduleMeta.file.url.href is `path/to/module/1.js`", function() {
+          expect(moduleMeta.file.url.href).to.equal("path/to/module/1.js");
         });
       });
 
@@ -225,8 +498,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.name).to.equal("kitchen");
         });
 
-        it("then moduleMeta.file.toUrl() is `../path/to/kitchen/and/sink.js`", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("../path/to/kitchen/and/sink.js");
+        it("then moduleMeta.file.url.href is `../path/to/kitchen/and/sink.js`", function() {
+          expect(moduleMeta.file.url.href).to.equal("../path/to/kitchen/and/sink.js");
         });
       });
 
@@ -240,8 +513,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.name).to.equal("tree");
         });
 
-        it("then moduleMeta.file.toUrl() is `./hugger.js`", function() {
-          expect(moduleMeta.file.toUrl()).to.equal("./hugger.js");
+        it("then moduleMeta.file.url.href is `hugger.js`", function() {
+          expect(moduleMeta.file.url.href).to.equal("hugger.js");
         });
       });
     });
@@ -290,11 +563,6 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.plugins[1]).to.equal("css");
         });
       });
-    });
-
-
-    describe("When Resolver is configured with `baseUrl`", function() {
-      it("needs tests");
     });
 
   });

@@ -1,7 +1,8 @@
 (function() {
   "use strict";
 
-  var File = require('./file');
+  var File = require('./file'),
+      URL  = require('./url');
 
   /**
    * @constructor Resolver - provides a way to take a configuration such as one
@@ -11,6 +12,11 @@
    */
   function Resolver(options) {
     this.settings = options || {};
+    var baseUrl = this.settings.baseUrl || (this.settings.baseUrl = "");
+
+    if (baseUrl && baseUrl[baseUrl.length - 1] !== '/') {
+      this.settings.baseUrl = baseUrl + '/';
+    }
   }
 
   /**
@@ -20,9 +26,32 @@
    *
    * @returns {{name: string, file: File, urlArgs: string, shim: object}}
    */
-  Resolver.prototype.resolve = function(name) {
+  Resolver.prototype.resolve = function(name, base) {
+    return Resolver.useBase(name) ?
+      this.fromBase(name, base) :
+      this.fromResolver(name);
+  };
+
+
+  Resolver.prototype.fromBase = function(name, baseUrl) {
+    var settings = this.settings,
+        urlArgs  = settings.urlArgs;
+
+    var file = new File(File.addExtension(name, "js"), baseUrl);
+    return {
+      name    : name,
+      deps    : [],
+      file    : file,
+      urlArgs : urlArgs
+    };
+  };
+
+
+  Resolver.prototype.fromResolver = function(name) {
     var i, length, pkg, pkgParts, pkgName, pkgTarget, shim;
     var settings = this.settings,
+        baseUrl  = settings.baseUrl,
+        urlArgs  = settings.urlArgs,
         shims    = settings.shim || {},
         packages = settings.packages || [],
         fileName = (settings.paths && settings.paths[name]) || name,
@@ -56,16 +85,29 @@
       };
     }
 
+    var file = new File(File.addExtension(fileName, "js"), baseUrl);
     return {
       name: name,
       deps: [],
-      file: new File(File.addExtension(fileName, "js"), settings.baseUrl),
-      urlArgs: settings.urlArgs,
+      file: file,
+      urlArgs: urlArgs,
       shim: shim,
       plugins: plugins
     };
   };
 
+
+  Resolver.useBase = function(name) {
+    return (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || Resolver.hasProtocol(name);
+  };
+
+
+  Resolver.hasProtocol = function(name) {
+    return /^(?:(https?|file)(:\/\/\/?))/g.test(name);
+  };
+
+
   Resolver.File = File;
+  Resolver.URL  = URL;
   module.exports = Resolver;
 })();

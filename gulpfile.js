@@ -2,7 +2,7 @@ var gulp = require("gulp");
 
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 gulp.task("test", ["build-debug"], function() {
-  return gulp.src("tests/SpecRunner.html")
+  return gulp.src("test/SpecRunner.html")
     .pipe(mochaPhantomJS());
 });
 
@@ -11,10 +11,10 @@ gulp.task("test-browser", ["build-debug"], function() {
   gulp.src(".")
     .pipe(webserver({
       livereload: true,
-      open: "tests/SpecRunner.html"
+      open: "test/SpecRunner.html"
     }));
 
-  gulp.watch("src/**/*.js", ["build-debug"]);
+  gulp.watch(["src/**/*.js", "test/**/*.js"], ["build-debug"]);
 });
 
 var browserify = require("browserify");
@@ -52,7 +52,7 @@ gulp.task("build-debug", ["jshint"], function() {
 var jshint = require("gulp-jshint");
 var stylish = require("jshint-stylish");
 gulp.task("jshint", function() {
-  return gulp.src(["src/**/*.js", "tests/**/*.js", "gulpfile.js"])
+  return gulp.src(["src/**/*.js", "test/**/*.js", "gulpfile.js"])
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter("fail"));
