@@ -33,51 +33,6 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("When resolving with `baseUrl`", function() {
-      var resolver, result;
-      beforeEach(function() {
-        resolver = new Resolver();
-      });
-
-
-      describe("when resolving `./file` with base `good/path/`", function() {
-        var baseUrl;
-        beforeEach(function() {
-          baseUrl = "good/path/";
-          result  = resolver.resolve("./file", baseUrl);
-        });
-
-        it("then `file.url.href` equals `good/path/file.js", function() {
-          expect(result.file.url.href).to.equal("good/path/file.js");
-        });
-      });
-
-
-      describe("when resolving `../file` with base `good/path/`", function() {
-        var baseUrl;
-        beforeEach(function() {
-          baseUrl = "good/path/";
-          result = resolver.resolve("../file", baseUrl);
-        });
-
-        it("then `file.url.href` equals `path/file.js", function() {
-          expect(result.file.url.href).to.equal("good/file.js");
-        });
-      });
-
-
-      describe("when resolving `./file.html` with base `http://domain:92/test/`", function() {
-        beforeEach(function() {
-          result = resolver.resolve("./file.html", "http://domain:92/test/");
-        });
-
-        it("then `file.url.href` equals `http://domain:92/test/file.html`", function() {
-          expect(result.file.url.href).to.equal("http://domain:92/test/file.html");
-        });
-      });
-    });
-
-
     describe("When resolving with no `baseUrl`", function() {
       var resolver, result;
       beforeEach(function() {
@@ -112,6 +67,66 @@ define(["dist/amd-resolver"], function(Resolver) {
 
         it("then `file.url.href` equals `/file.html`", function() {
           expect(result.file.url.href).to.equal("/file.html");
+        });
+      });
+    });
+
+
+    describe("When resolving with `baseUrl`", function() {
+      var resolver, result;
+      beforeEach(function() {
+        resolver = new Resolver({
+          baseUrl: "configured/path"
+        });
+      });
+
+
+      describe("when resolving `file` with configured baseUrl `configured/path`", function() {
+        var baseUrl;
+        beforeEach(function() {
+          baseUrl = "good/path/";
+          result  = resolver.resolve("file", baseUrl);
+        });
+
+        it("then `file.url.href` equals `configured/path/file.js", function() {
+          expect(result.file.url.href).to.equal("configured/path/file.js");
+        });
+      });
+
+
+      describe("when resolving `./file` with baseUrl `good/path/`", function() {
+        var baseUrl;
+        beforeEach(function() {
+          baseUrl = "good/path/";
+          result  = resolver.resolve("./file", baseUrl);
+        });
+
+        it("then `file.url.href` equals `good/path/file.js", function() {
+          expect(result.file.url.href).to.equal("good/path/file.js");
+        });
+      });
+
+
+      describe("when resolving `../file` with baseUrl `good/path/`", function() {
+        var baseUrl;
+        beforeEach(function() {
+          baseUrl = "good/path/";
+          result = resolver.resolve("../file", baseUrl);
+        });
+
+        it("then `file.url.href` equals `path/file.js", function() {
+          expect(result.file.url.href).to.equal("good/file.js");
+        });
+      });
+
+
+      describe("when resolving `./file.html` with baseUrl `http://domain:92/test/`", function() {
+        beforeEach(function() {
+          result = resolver.resolve("./file.html", "http://domain:92/test/");
+        });
+
+        it("then `file.url.href` equals `http://domain:92/test/file.html`", function() {
+          expect(result.file.url.href).to.equal("http://domain:92/test/file.html");
         });
       });
     });
@@ -451,7 +466,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         resolver = new Resolver();
       });
 
-      describe("and a module name is `path/to/file.css`", function() {
+      describe("and module name is `path/to/file.css`", function() {
         var moduleMeta;
         beforeEach(function() {
           moduleMeta = resolver.resolve("path/to/file.css");
@@ -466,7 +481,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
       });
 
-      describe("and a module name is `less!css!path/to/file.css`", function() {
+      describe("and module name is `less!css!path/to/file.css`", function() {
         var moduleMeta;
         beforeEach(function() {
           moduleMeta = resolver.resolve("less!css!path/to/file.css");
@@ -488,6 +503,18 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.plugins[1]).to.equal("css");
         });
       });
+
+      describe("and module name is `less!css!./file.css` and has a baseUrl", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("less!css!./file.css", "base/path/");
+        });
+
+        it("then file.url.href is `base/path/file.css`", function() {
+          expect(moduleMeta.file.url.href).to.equal("base/path/file.css");
+        });
+      });
+
     });
 
   });

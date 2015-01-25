@@ -5,15 +5,18 @@
       URL  = require('./url');
 
   /**
-   * @constructor Resolver - provides a way to take a configuration such as one
-   * from requirejs to convert module names/ids to module meta objects. Module meta
-   * objects contain information such as the url for the module, which can be used
-   * for retrieving the corresponding file from a remote sever.
+   * @constructor
+   * Provides a way to build a module meta object from a module name.  The resolution
+   * relies on configuration settings, which are compatible with requirejs. The created
+   * module meta objects contain information such as a url that can be used for downloading
+   * the corresponding file from a remote sever.
    */
   function Resolver(options) {
     this.settings = options || {};
     var baseUrl = this.settings.baseUrl || (this.settings.baseUrl = "");
 
+    // Make sure that if a baseUrl is provided, it ends in a slash.  This is to ensure
+    // proper creation of URLs.
     if (baseUrl && baseUrl[baseUrl.length - 1] !== '/') {
       this.settings.baseUrl = baseUrl + '/';
     }
@@ -24,7 +27,7 @@
    *
    * @param {string} name - Module name/id
    * @param {string} baseUrl - base url to be used when the `name` starts with `./`, `../`, or a protocol.
-   *   Otherwise we use the baseUrl the resolver is configured with.
+   *   Otherwise the configured baseUrl is used.
    *
    * @returns {{name: string, file: File, urlArgs: string, shim: object}}
    */
@@ -34,7 +37,8 @@
         urlArgs  = settings.urlArgs,
         shims    = settings.shim || {},
         packages = settings.packages || [],
-        fileName = (settings.paths && settings.paths[name]) || name,
+        paths    = settings.paths || {},
+        fileName = paths[name],
         plugins  = name.split("!");
 
     // The last item is the actual module name.
@@ -65,7 +69,11 @@
       };
     }
 
-    baseUrl = Resolver.useBase(fileName) ? baseUrl : settings.baseUrl;
+    if (!fileName) {
+       fileName = name;
+    }
+
+    baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
     file = new File(File.addExtension(fileName, "js"), baseUrl);
 
     return {
@@ -79,11 +87,17 @@
   };
 
 
+  /**
+   * Checks and returns true if name starts with `./`, `../`, or a protocol.  Otherwise returns false;
+   */
   Resolver.useBase = function(name) {
-    return (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || Resolver.hasProtocol(name);
+    return (name[0] === '.' && (name[1] === '/' || (name[1] === '.' && name[2] === '/'))) || Resolver.hasProtocol(name);
   };
 
 
+  /**
+   * Quick check to determine if the name has a known protocol. Currently we only support http(s) and file.
+   */
   Resolver.hasProtocol = function(name) {
     return /^(?:(https?|file)(:\/\/\/?))/g.test(name);
   };

@@ -76,7 +76,7 @@ var resolver = new Resolver({
 
 #### resolve(name : string, baseUrl : string)
 
-Creates a module meta object. If `name` starts with `./`,  `../`, or a protocol, then the resolution process will build a module meta with a URL using the input `baseUrl` (if available), skipping all configuration options the resolver was created with.  The URL is built using [this](http://nodejs.org/api/url.html#url_url_resolve_from_to) routine.  If `name` starts with anything else, then the resolution process will use the configuration options in the `resolver`.
+Creates a module meta object. If `name` starts with `./`,  `../`, or a protocol, then the resolution process will build a module meta with a URL using the input `baseUrl` (if available). The URL is built using [this](http://nodejs.org/api/url.html#url_url_resolve_from_to) routine. *If* `name` starts with anything else, then the resolution process will use the `baseUrl` configured in the resolver ignoring the one passed it.
 
 ##### Parameters
 
