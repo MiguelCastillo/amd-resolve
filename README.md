@@ -81,7 +81,7 @@ Creates a module meta object. If `name` starts with `./`,  `../`, or a protocol,
 ##### Parameters
 
   - **`name`** *{string}* - Name of the module to create a module meta object for. The name can be formatted with plugins such as `css!filename.css`.
-  - **`baseUrl`** *{string}* -
+  - **`baseUrl`** *{string}* - URL to be used as a base *only* when the name of the module starts with `./`, `../`, or a protocol.  Otherwise, it is ignored.
 
 ##### Returns {object} - module meta
 
