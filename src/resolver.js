@@ -23,34 +23,14 @@
    * Creates a module meta from a module name/id.
    *
    * @param {string} name - Module name/id
+   * @param {string} baseUrl - base url to be used when the `name` starts with `./`, `../`, or a protocol.
+   *   Otherwise we use the baseUrl the resolver is configured with.
    *
    * @returns {{name: string, file: File, urlArgs: string, shim: object}}
    */
-  Resolver.prototype.resolve = function(name, base) {
-    return Resolver.useBase(name) ?
-      this.fromBase(name, base) :
-      this.fromResolver(name);
-  };
-
-
-  Resolver.prototype.fromBase = function(name, baseUrl) {
+  Resolver.prototype.resolve = function(name, baseUrl) {
+    var i, length, file, pkg, pkgParts, pkgName, pkgTarget, shim;
     var settings = this.settings,
-        urlArgs  = settings.urlArgs;
-
-    var file = new File(File.addExtension(name, "js"), baseUrl);
-    return {
-      name    : name,
-      deps    : [],
-      file    : file,
-      urlArgs : urlArgs
-    };
-  };
-
-
-  Resolver.prototype.fromResolver = function(name) {
-    var i, length, pkg, pkgParts, pkgName, pkgTarget, shim;
-    var settings = this.settings,
-        baseUrl  = settings.baseUrl,
         urlArgs  = settings.urlArgs,
         shims    = settings.shim || {},
         packages = settings.packages || [],
@@ -85,7 +65,9 @@
       };
     }
 
-    var file = new File(File.addExtension(fileName, "js"), baseUrl);
+    baseUrl = Resolver.useBase(fileName) ? baseUrl : settings.baseUrl;
+    file = new File(File.addExtension(fileName, "js"), baseUrl);
+
     return {
       name: name,
       deps: [],

@@ -33,82 +33,7 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("When resolving a filename", function() {
-      var resolver;
-
-      beforeEach(function() {
-        resolver = new Resolver();
-      });
-
-      describe("and the filename is `./file`", function() {
-        var resolveResult, base, fromResolverStub, fromBaseStub;
-        beforeEach(function() {
-          base = "some base";
-          fromBaseStub     = sinon.stub(resolver, "fromBase").returns("good");
-          fromResolverStub = sinon.stub(resolver, "fromResolver").throws("TypeError");
-          resolveResult    = resolver.resolve("./file", base);
-        });
-
-        it("then `fromBase` is called once", function() {
-          expect(fromBaseStub.calledOnce).to.equal(true);
-        });
-
-        it("then `fromBase` is called with `./file`", function() {
-          expect(fromBaseStub.calledWithExactly("./file", base)).to.equal(true);
-        });
-
-        it("then `resolve` returns `good`", function() {
-          expect(resolveResult).to.equal(fromBaseStub.returnValues[0]);
-        });
-      });
-
-      describe("and the filename is `../file`", function() {
-        var resolveResult, base, fromResolverStub, fromBaseStub;
-        beforeEach(function() {
-          base = "some base";
-          fromBaseStub     = sinon.stub(resolver, "fromBase").returns("good");
-          fromResolverStub = sinon.stub(resolver, "fromResolver").throws("TypeError");
-          resolveResult    = resolver.resolve("../file", base);
-        });
-
-        it("then `fromBase` is called once", function() {
-          expect(fromBaseStub.calledOnce).to.equal(true);
-        });
-
-        it("then `fromBase` is called with `../file`", function() {
-          expect(fromBaseStub.calledWithExactly("../file", base)).to.equal(true);
-        });
-
-        it("then `resolve` returns `good`", function() {
-          expect(resolveResult).to.equal(fromBaseStub.returnValues[0]);
-        });
-      });
-
-      describe("and the filename is `file`", function() {
-        var resolveResult, base, fromResolverStub, fromBaseStub;
-        beforeEach(function() {
-          base = "some base";
-          fromBaseStub     = sinon.stub(resolver, "fromBase").throws("TypeError");
-          fromResolverStub = sinon.stub(resolver, "fromResolver").returns("good");
-          resolveResult    = resolver.resolve("file", base);
-        });
-
-        it("then `fromBase` is not called", function() {
-          expect(fromBaseStub.called).to.equal(false);
-        });
-
-        it("then `fromResolver` is called with `file`", function() {
-          expect(fromResolverStub.calledWithExactly("file")).to.equal(true);
-        });
-
-        it("then `resolve` returns `good`", function() {
-          expect(resolveResult).to.equal(fromResolverStub.returnValues[0]);
-        });
-      });
-    });
-
-
-    describe("When resolving `fromBase`", function() {
+    describe("When resolving with `baseUrl`", function() {
       var resolver, result;
       beforeEach(function() {
         resolver = new Resolver();
@@ -119,7 +44,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         var baseUrl;
         beforeEach(function() {
           baseUrl = "good/path/";
-          result  = resolver.fromBase("./file", baseUrl);
+          result  = resolver.resolve("./file", baseUrl);
         });
 
         it("then `file.url.href` equals `good/path/file.js", function() {
@@ -132,7 +57,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         var baseUrl;
         beforeEach(function() {
           baseUrl = "good/path/";
-          result = resolver.fromBase("../file", baseUrl);
+          result = resolver.resolve("../file", baseUrl);
         });
 
         it("then `file.url.href` equals `path/file.js", function() {
@@ -143,7 +68,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("when resolving `./file.html` with base `http://domain:92/test/`", function() {
         beforeEach(function() {
-          result = resolver.fromBase("./file.html", "http://domain:92/test/");
+          result = resolver.resolve("./file.html", "http://domain:92/test/");
         });
 
         it("then `file.url.href` equals `http://domain:92/test/file.html`", function() {
@@ -153,7 +78,7 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("When resolving `fromResolver`", function() {
+    describe("When resolving with no `baseUrl`", function() {
       var resolver, result;
       beforeEach(function() {
         resolver = new Resolver();
@@ -161,7 +86,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file");
+          result = resolver.resolve("file");
         });
 
         it("then `file.url.href` equals `file.js`", function() {
@@ -171,7 +96,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file.html`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file.html");
+          result = resolver.resolve("file.html");
         });
 
         it("then `file.url.href` equals `file.html`", function() {
@@ -182,7 +107,7 @@ define(["dist/amd-resolver"], function(Resolver) {
       describe("and resolving `/file.html`", function() {
         var result;
         beforeEach(function() {
-          result = resolver.fromResolver("/file.html");
+          result = resolver.resolve("/file.html");
         });
 
         it("then `file.url.href` equals `/file.html`", function() {
@@ -192,7 +117,7 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("When resolving `fromResolver` with configured `baseUrl` of '../this/is/some/path'", function() {
+    describe("When resolving with configured `baseUrl` of '../this/is/some/path'", function() {
       var resolver, result;
       beforeEach(function() {
         resolver = new Resolver({
@@ -202,7 +127,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file");
+          result = resolver.resolve("file");
         });
 
         it("then `file.url.href` equals `../this/is/some/path/file.js`", function() {
@@ -212,7 +137,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file.html`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file.html");
+          result = resolver.resolve("file.html");
         });
 
         it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
@@ -223,7 +148,7 @@ define(["dist/amd-resolver"], function(Resolver) {
       describe("and resolving `/file.html`", function() {
         var result;
         beforeEach(function() {
-          result = resolver.fromResolver("/file.html");
+          result = resolver.resolve("/file.html");
         });
 
         it("then `file.url.href` equals `/file.html`", function() {
@@ -233,7 +158,7 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
-    describe("When resolving `fromResolver` with configured `baseUrl` of '../this/is/some/path/'", function() {
+    describe("When resolving with configured `baseUrl` of '../this/is/some/path/'", function() {
       var resolver, result;
       beforeEach(function() {
         resolver = new Resolver({
@@ -243,7 +168,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file");
+          result = resolver.resolve("file");
         });
 
         it("then `file.url.href` equals `../this/is/some/path/file.js`", function() {
@@ -253,7 +178,7 @@ define(["dist/amd-resolver"], function(Resolver) {
 
       describe("and resolving `file.html`", function() {
         beforeEach(function() {
-          result = resolver.fromResolver("file.html");
+          result = resolver.resolve("file.html");
         });
 
         it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
@@ -264,7 +189,7 @@ define(["dist/amd-resolver"], function(Resolver) {
       describe("and resolving `/file.html`", function() {
         var result;
         beforeEach(function() {
-          result = resolver.fromResolver("/file.html");
+          result = resolver.resolve("/file.html");
         });
 
         it("then `file.url.href` equals `/file.html`", function() {
