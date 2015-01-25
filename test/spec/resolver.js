@@ -514,6 +514,39 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.file.url.href).to.equal("base/path/file.css");
         });
       });
+    });
+
+
+    describe("When Resolver has urlArgs `bust=date`", function() {
+      var resolver, bust = 'bust=' + (new Date()).getTime();
+
+      beforeEach(function() {
+        resolver = new Resolver({
+          urlArgs: bust
+        });
+      });
+
+      describe("and resolving name `file`", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("file");
+        });
+
+        it("then `file.url.href` is file.js?" + bust, function() {
+          expect(moduleMeta.file.url.href).to.equal("file.js?" + bust);
+        });
+      });
+
+      describe("and resolving name `./file` and baseUrl with search parameters", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("./file", "base/path/index.jsp?test=args");
+        });
+
+        it("then `file.url.href` is base/path/file.js?" + bust, function() {
+          expect(moduleMeta.file.url.href).to.equal("base/path/file.js?" + bust);
+        });
+      });
 
     });
 

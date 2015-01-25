@@ -73,14 +73,13 @@
        fileName = name;
     }
 
-    baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
-    file = new File(File.addExtension(fileName, "js"), baseUrl);
+    fileName = File.addExtension(fileName, "js");
+    baseUrl  = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
+    file     = new File(urlArgs ? fileName + "?" + urlArgs : fileName, baseUrl);
 
     return {
       name: name,
-      deps: [],
       file: file,
-      urlArgs: urlArgs,
       shim: shim,
       plugins: plugins
     };
