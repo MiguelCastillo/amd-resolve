@@ -1,53 +1,49 @@
-amd-resolver
-===========
+#amd-resolver [![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MiguelCastillo/amd-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MiguelCastillo/amd-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Resolve AMD module names to File objects suitable to run in the Browser.
+>Create module meta objects from module names using configuration options compatible with [RequireJS](http://requirejs.org/docs/api.html#config). Such module meta objects can be used by Module Loaders to download and process module files in the Browser. The module meta format is described [here](#module_meta)
 
 ### API
 
 #### Resolver(options : object) : constructor
 Resolver - provides the means to convert a module name to a module meta object. A module meta object contains information such as a url, which can be used for fetching the module file from a remote sever.
 
-@param {object} `options` - is a configuration object for properly creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
+##### Parameters
 
-- @property {string} `baseUrl` - path that every file is relative to.
+- **`options`** *{object}* - is a configuration options object with information for creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
+  - **`baseUrl`** *{string}* - path that every file is relative to.
+  - **`paths`** *{object}* - is an object with key value pairs to map module names to files.
 
-- @property {object} `paths` - is an object with key value pairs to map module names to files.
+    For example, if you wanted to have a module called `md5` and you wanted to map that to the location of the actual file, you can specify the following:
 
-  For example, if you wanted to have a module called `md5` and you wanted to map that to the location of the actual file, you can define the following:
-
-  ``` javascript
-  {
-    "paths": {
-      "md5": "path/to/file/module"
+    ``` javascript
+    {
+      "paths": {
+        "md5": "path/to/file/md5"
+      }
     }
-  }
-  ```
+    ```
 
-  That will tell resolver the location for `md5` to create a proper file object that points to `path/to/file/module.js`.
+    That will tells resolver that the location for `md5` is `path/to/file/md5.js`.
 
-- @property {array} `packages` - is an array for defining directory aliases to files. Think npm packages that have an `index.js` or a `main.js`.
+  - **`packages`** *{array}* - is an array of directory aliases to files. Think npm packages that load `index.js` by default.
 
-  A package can just be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving that package will generate a url to `machinge/main.js`.
+    A package can be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving `machines` will generate a url to `machinge/main.js`.
 
-  Alternatively, a package can be an object that gives more granual control of the resolution process. The following properties are supported:
+    Alternatively, a package can be an object which provides more granual control of the resolution process. The following properties are supported:
 
-  - @property {string} `location` - which is the location on disk.
-  - @property {string} `main` - file name. Provide one if the module file is other than `main.js`.
-  - @property {string} `name` - package name.
+    - **`location`** *{string}* - which is the location on disk.
+    - **`main`** *{string}* - file name. Provide one if the module file is other than `main.js`.
+    - **`name`** *{string}* - package name.
+
+  - **`shim`** *{object}* - maps code in the global object to modules.  An example of this is `Backbone`, which is loaded into the global object.  So, in order for Module Loaders to load `Backbone`, they need to know how to find `Backbone` in the global object and also know its dependencies (`underscore`) in case `Backbone` needs to be loaded.
+
+    Shims provides two properties:
+
+    - **`exports|name`** *{string}* - The name of the code in the global object.
+    - **`imports|deps`** *{array}* - List of dependencies.  This is important when the shim has not yet been loaded and it requires other modules to be loaded first.
 
 
-- @property {object} `shim` - maps code in the global object to modules.  An example of this is `Backbone`, which is loaded into the global object.  So, in order to consume `Backbone` as a dependency in your module, resolver needs to know how to find it in the global object and also know its dependencies (`underscore`).
-
-  Shims provides two options
-  - @property {string} `exports | name` - The name of the code in the global object.
-  - @property {array} `imports | deps` - List of dependencies.  This is important when the shim needs certain code to be loaded before the shim itself.
-
-
-##### example
+##### Example:
 
 ``` javascript
 var resolver = new Resolver({
@@ -78,23 +74,26 @@ var resolver = new Resolver({
 });
 ```
 
-#### resolve(name : string)
+#### resolve(name : string, baseUrl : string)
 
-Creates a module meta object.
+Creates a module meta object. If `name` starts with `./`,  `../`, or a protocol, then the resolution process will build a module meta with a URL using the input `baseUrl` (if available), skipping all configuration options the resolver was created with.  The URL is built using [this](http://nodejs.org/api/url.html#url_url_resolve_from_to) routine.  If `name` starts with anything else, then the resolution process will use the configuration options in the `resolver`.
 
-@param {string} `name` - Name of the module to create a module meta object for. The name can be formatted with plugins such as `css!filename.css`.
+##### Parameters
 
-@returns {object} module meta
+  - **`name`** *{string}* - Name of the module to create a module meta object for. The name can be formatted with plugins such as `css!filename.css`.
+  - **`baseUrl`** *{string}* -
 
-  - @property {string} `name` - Name of the module being resolved. Plugin definitions are stripped out.
-  - @property {File} `file` - File object with a URL instance that can be used to request the module file from a remote server. For specifics on what's available in the URL instance, please see [URL Api](https://developer.mozilla.org/en-US/docs/Web/API/URL).
-  - @property {string} `urlArgs` - cgi parameters to be used when requesting the module file from a remote server.
-  - @property {array} `plugins` - Array of strings created from the module name.  Anything at the beginning of the module name that is delimited with `!` will be treated as a plugin.
-  - @property {object} `shim` - Is an object containing information about modules that exist in the global object. `shim` can specify a couple of things.
-    - @property {string} `name` - which is the name the shim has in the global space.
-    - @property {array} `deps` - which is an array of string of dependencies that need to be loaded before the shim.
+##### Returns {object} - module meta
 
-##### examples:
+  - **`name`** *{string}* - Name of the module being resolved. Plugin definitions are not included.
+  - **`file`** *{File}* - File object with a URL that can be used to request the module file from a remote server. For specifics on what's available in the URL instance, please see the [URL Api](https://developer.mozilla.org/en-US/docs/Web/API/URL).
+  - **`urlArgs`** *{string}* - cgi parameters.
+  - **`plugins`** *{array}* - Array of strings created from the input module `name`. Anything at the beginning of the module `name` that is delimited by a `!` will be processed as a plugin.
+  - **`shim`** *{object}* - Object containing information about modules that exist in the global object. `shim` can specify a couple of things.
+    - **`name`** *{string}* - Name module has in the global space.
+    - **`deps`** *{array}* - Array of string of dependencies that need to be loaded before the shim.
+
+##### Examples:
 
 Create module meta objects
 ``` javascript
