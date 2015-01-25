@@ -1,6 +1,6 @@
-#amd-resolver [![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MiguelCastillo/amd-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# amd-resolver [![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MiguelCastillo/amd-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
->Create module meta objects from module names using configuration options compatible with [RequireJS](http://requirejs.org/docs/api.html#config). Such module meta objects can be used by Module Loaders to download and process module files in the Browser. The module meta format is described [here](#module_meta)
+>Create module meta objects from module names using configuration options compatible with [RequireJS](http://requirejs.org/docs/api.html#config). Such module meta objects can be used by Module Loaders to download and process module files in the Browser. The module meta format is described [here](#returns-object---module-meta)
 
 ### API
 
