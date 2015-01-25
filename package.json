@@ -1,6 +1,6 @@
 {
   "name": "amd-resolver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Resolve AMD module names to File objects suitable to run in the Browser",
   "main": "dist/amd-resolver.js",
   "scripts": {
