@@ -14,7 +14,7 @@ gulp.task("serve", ["build-release", "build-debug"], function() {
       open: "test/SpecRunner.html"
     }));
 
-  gulp.watch(["src/**/*.js", "test/**/*.js"], ["build-debug"]);
+  gulp.watch(["src/**/*.js", "test/**/*.js"], ["build"]);
 });
 
 var browserify = require("browserify");
