@@ -83,7 +83,8 @@
 
     return {
       name: name,
-      file: file,
+      file: file, // Deprecated in favor of `url`
+      url: file.url,
       shim: shim,
       plugins: plugins
     };
