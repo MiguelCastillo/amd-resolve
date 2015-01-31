@@ -7,7 +7,7 @@ gulp.task("test", ["build-debug"], function() {
 });
 
 var webserver = require("gulp-webserver");
-gulp.task("test-browser", ["build-debug"], function() {
+gulp.task("serve", ["build-release", "build-debug"], function() {
   gulp.src(".")
     .pipe(webserver({
       livereload: true,
@@ -57,3 +57,6 @@ gulp.task("jshint", function() {
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter("fail"));
 });
+
+
+gulp.task("build", ["jshint", "build-release", "build-debug"]);

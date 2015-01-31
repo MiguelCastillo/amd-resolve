@@ -73,9 +73,13 @@
        fileName = name;
     }
 
-    fileName = File.addExtension(fileName, "js");
-    baseUrl  = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
-    file     = new File(urlArgs ? fileName + "?" + urlArgs : fileName, baseUrl);
+    // Let's assume .js extension for everything that is not defined with plugins
+    if (plugins.length === 0 && /\.js$/.test(fileName) === false) {
+      fileName += ".js";
+    }
+
+    baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
+    file    = new File(urlArgs ? fileName + "?" + urlArgs : fileName, baseUrl);
 
     return {
       name: name,

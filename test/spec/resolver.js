@@ -54,8 +54,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("file.html");
         });
 
-        it("then `file.url.href` equals `file.html`", function() {
-          expect(result.file.url.href).to.equal("file.html");
+        it("then `file.url.href` equals `file.html.js`", function() {
+          expect(result.file.url.href).to.equal("file.html.js");
         });
       });
 
@@ -65,8 +65,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("/file.html");
         });
 
-        it("then `file.url.href` equals `/file.html`", function() {
-          expect(result.file.url.href).to.equal("/file.html");
+        it("then `file.url.href` equals `/file.html.js`", function() {
+          expect(result.file.url.href).to.equal("/file.html.js");
         });
       });
     });
@@ -126,7 +126,7 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
 
         it("then `file.url.href` equals `http://domain:92/test/file.html`", function() {
-          expect(result.file.url.href).to.equal("http://domain:92/test/file.html");
+          expect(result.file.url.href).to.equal("http://domain:92/test/file.html.js");
         });
       });
     });
@@ -155,8 +155,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("file.html");
         });
 
-        it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
-          expect(result.file.url.href).to.equal("../this/is/some/path/file.html");
+        it("then `file.url.href` equals `../this/is/some/path/file.html.js`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.html.js");
         });
       });
 
@@ -166,8 +166,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("/file.html");
         });
 
-        it("then `file.url.href` equals `/file.html`", function() {
-          expect(result.file.url.href).to.equal("/file.html");
+        it("then `file.url.href` equals `/file.html.js`", function() {
+          expect(result.file.url.href).to.equal("/file.html.js");
         });
       });
     });
@@ -196,8 +196,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("file.html");
         });
 
-        it("then `file.url.href` equals `../this/is/some/path/file.html`", function() {
-          expect(result.file.url.href).to.equal("../this/is/some/path/file.html");
+        it("then `file.url.href` equals `../this/is/some/path/file.html.js`", function() {
+          expect(result.file.url.href).to.equal("../this/is/some/path/file.html.js");
         });
       });
 
@@ -207,8 +207,8 @@ define(["dist/amd-resolver"], function(Resolver) {
           result = resolver.resolve("/file.html");
         });
 
-        it("then `file.url.href` equals `/file.html`", function() {
-          expect(result.file.url.href).to.equal("/file.html");
+        it("then `file.url.href` equals `/file.html.js`", function() {
+          expect(result.file.url.href).to.equal("/file.html.js");
         });
       });
     });
@@ -283,8 +283,8 @@ define(["dist/amd-resolver"], function(Resolver) {
         });
 
         it("then resolving `assets/library/template.html` is 'good/tests/assets/library/template.html'", function() {
-          var moduleMeta = resolver.resolve("assets/library/template.html");
-          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/library/template.html");
+          var moduleMeta = resolver.resolve("assets/library/template.html.js");
+          expect(moduleMeta.file.url.href).to.equal("good/tests/assets/library/template.html.js");
         });
       });
     });
