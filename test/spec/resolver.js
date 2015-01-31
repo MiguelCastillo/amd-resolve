@@ -514,6 +514,17 @@ define(["dist/amd-resolver"], function(Resolver) {
           expect(moduleMeta.file.url.href).to.equal("base/path/file.css");
         });
       });
+
+      describe("and module name has an empty list of plugins", function() {
+        var moduleMeta;
+        beforeEach(function() {
+          moduleMeta = resolver.resolve("!./file.css", "base/path/");
+        });
+
+        it("then file.url.href is `base/path/file.css`", function() {
+          expect(moduleMeta.file.url.href).to.equal("base/path/file.css");
+        });
+      });
     });
 
 
