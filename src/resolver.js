@@ -13,7 +13,7 @@
    */
   function Resolver(options) {
     this.settings = options || {};
-    var baseUrl = this.settings.baseUrl || (this.settings.baseUrl = "");
+    var baseUrl = this.settings.baseUrl || (this.settings.baseUrl = ".");
 
     // Make sure that if a baseUrl is provided, it ends in a slash.  This is to ensure
     // proper creation of URLs.
@@ -107,7 +107,7 @@
   };
 
 
-  Resolver.File = File;
-  Resolver.URL  = URL;
+  Resolver.File = Resolver.prototype.File = File;
+  Resolver.URL  = Resolver.prototype.URL  = URL;
   module.exports = Resolver;
 })();

@@ -22,7 +22,7 @@ var source = require("vinyl-source-stream");
 gulp.task("build-release", ["jshint"], function() {
   var bundler = new browserify({
     debug: true, // Add source maps to output to allow minifyify convert them to minified source maps
-    standalone: "amd-resolver",
+    standalone: "amdresolver",
     detectGlobals: false
   });
 
@@ -40,8 +40,7 @@ gulp.task("build-debug-watch", function() {
 
 gulp.task("build-debug", ["jshint"], function() {
   return browserify("./src/resolver.js", {
-      debug: true, // Add source maps to output
-      standalone: "amd-resolver",
+      standalone: "amdresolver",
       detectGlobals: false
     })
     .bundle()
