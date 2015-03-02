@@ -2,7 +2,7 @@
   "name": "amd-resolver",
   "version": "1.0.3",
   "description": "Resolve AMD module names to File objects suitable to run in the Browser",
-  "main": "dist/amd-resolver.js",
+  "main": "src/resolver.js",
   "scripts": {
     "prepublish": "gulp build",
     "test": "grunt test"
