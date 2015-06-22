@@ -245,21 +245,21 @@ define(["dist/amd-resolver"], function(Resolver) {
         expect(url.username).to.equal('');
       });
     });
-  });
 
+    describe("When calling resolve", function() {
+      describe("with `../base/path` and baseUrl `http://localhost/some/path/`", function() {
+        it("then resolve returns `http://localhost/some/base/path`", function() {
+          expect(URL.parser.resolve("http://localhost/some/path/", "../base/path")).to.equal("http://localhost/some/base/path");
+        });
+      });
 
-  describe("When calling resolve", function() {
-    describe("with `../base/path` and baseUrl `http://localhost/some/path/`", function() {
-      it("then resolve returns `http://localhost/some/base/path`", function() {
-        expect(URL.parser.resolve("http://localhost/some/path/", "../base/path")).to.equal("http://localhost/some/base/path");
+      describe("with `../base/path` and baseUrl `http://localhost/some/path`", function() {
+        it("then resolve returns `http://localhost/base/path`", function() {
+          expect(URL.parser.resolve("http://localhost/some/path", "../base/path")).to.equal("http://localhost/base/path");
+        });
       });
     });
 
-    describe("with `../base/path` and baseUrl `http://localhost/some/path`", function() {
-      it("then resolve returns `http://localhost/base/path`", function() {
-        expect(URL.parser.resolve("http://localhost/some/path", "../base/path")).to.equal("http://localhost/base/path");
-      });
-    });
   });
 
 });

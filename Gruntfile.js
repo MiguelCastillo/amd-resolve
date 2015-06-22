@@ -36,6 +36,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-mocha");
   grunt.loadNpmTasks("grunt-contrib-connect");
-  grunt.registerTask("server", ["connect:keepalive"]);
+
+  grunt.registerTask("serve", ["connect:keepalive"]);
   grunt.registerTask("test", ["connect:test", "mocha:test"]);
 };
