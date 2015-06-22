@@ -1,4 +1,5 @@
 {
+  "debug":false,
   "undef":true,
   "unused":true,
   "curly":true,
@@ -15,7 +16,7 @@
     "it": true,
     "expect": true,
     "beforeEach": true,
-    "Bitimports": true,
+    "bitimports": true,
     "sinon": true
   }
 }
