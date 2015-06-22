@@ -1,5 +1,5 @@
 var File = require('./file');
-var URL  = require('./url');
+var Url  = require('./url');
 
 /**
  * @constructor
@@ -104,6 +104,6 @@ Resolver.hasProtocol = function(name) {
 };
 
 
-Resolver.File = File;
-Resolver.URL  = URL;
+Resolver.File  = File;
+Resolver.Url   = Url;
 module.exports = Resolver;

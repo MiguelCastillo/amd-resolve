@@ -225,10 +225,10 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 },{}],2:[function(require,module,exports){
-var URL = require('./url');
+var Url = require('./url');
 
 function File(fileUrl, baseUrl) {
-  this.url = new URL(fileUrl, baseUrl);
+  this.url = new Url(fileUrl, baseUrl);
 }
 
 /**
@@ -287,7 +287,7 @@ module.exports = File;
 
 },{"./url":4}],3:[function(require,module,exports){
 var File = require('./file');
-var URL  = require('./url');
+var Url  = require('./url');
 
 /**
  * @constructor
@@ -392,23 +392,23 @@ Resolver.hasProtocol = function(name) {
 };
 
 
-Resolver.File = File;
-Resolver.URL  = URL;
+Resolver.File  = File;
+Resolver.Url   = Url;
 module.exports = Resolver;
 
 },{"./file":2,"./url":4}],4:[function(require,module,exports){
 var path = require('path');
 
 /**
- * URL factory that creates URL object as defined here https://developer.mozilla.org/en-US/docs/Web/API/URL
+ * Url factory that creates URL object as defined here https://developer.mozilla.org/en-US/docs/Web/API/URL
  *
  * @param {urlString} string - URL string to build a URL object from
  * @param {baseString} string - URL string to use as a base for building the URL object.
  *
  * @returns {object} URL object
  */
-function URL(urlString, baseString) {
-  return URL.parser.join(baseString || "", urlString);
+function Url(urlString, baseString) {
+  return Url.parser.join(baseString || "", urlString);
 }
 
 
@@ -421,7 +421,7 @@ function URL(urlString, baseString) {
  * @returns {string} full href
  */
 function resolve(baseString, urlString) {
-  return URL.parser.join(baseString, urlString).href;
+  return Url.parser.join(baseString, urlString).href;
 }
 
 
@@ -544,7 +544,7 @@ function directory(pathname) {
 }
 
 
-URL.parser = {
+Url.parser = {
   resolve : resolve,
   parse   : parse,
   join    : join
@@ -554,10 +554,10 @@ URL.parser = {
 //
 // This chunk of code below enables nodejs URL module.  Useful for testing purposes.
 //
-//URL.parser = require('url');
-//URL.parser.join = function(baseString, urlString) {
-//  var resolved = URL.parser.resolve(baseString || "", urlString);
-//  var url      = URL.parser.parse(resolved);
+//Url.parser = require('url');
+//Url.parser.join = function(baseString, urlString) {
+//  var resolved = Url.parser.resolve(baseString || "", urlString);
+//  var url      = Url.parser.parse(resolved);
 //  url.origin   = url.protocol ? (url.protocol + "//" + url.host) : "";
 //  url.hash     = url.hash     || "";
 //  url.host     = url.host     || "";
@@ -572,7 +572,7 @@ URL.parser = {
 //};
 
 
-module.exports = URL;
+module.exports = Url;
 
 },{"path":1}]},{},[3])(3)
 });

@@ -1,7 +1,7 @@
-var URL = require('./url');
+var Url = require('./url');
 
 function File(fileUrl, baseUrl) {
-  this.url = new URL(fileUrl, baseUrl);
+  this.url = new Url(fileUrl, baseUrl);
 }
 
 /**

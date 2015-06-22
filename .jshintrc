@@ -10,6 +10,5 @@
     "module": true,
     "require": true,
     "window": true
-  },
-  "-W079": false
+  }
 }
