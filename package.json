@@ -25,6 +25,7 @@
     "grunt-contrib-connect": "~0.10.1",
     "grunt-mocha": "~0.4.13",
     "gulp": "^3.9.0",
+    "gulp-header": "^1.2.2",
     "gulp-jshint": "^1.11.1",
     "gulp-mocha": "^2.1.2",
     "gulp-mocha-phantomjs": "^0.6.1",

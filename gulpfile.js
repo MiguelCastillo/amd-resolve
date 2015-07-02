@@ -5,21 +5,28 @@ var browserify = require("browserify");
 var source = require("vinyl-source-stream");
 var jshint = require("gulp-jshint");
 var stylish = require("jshint-stylish");
+var header = require('gulp-header');
+var pkg = require('./package.json');
+
+
+var date = new Date();
+var today = date.toDateString() + " " + date.toLocaleTimeString();
+var banner = "/*! <%= pkg.name %> v<%= pkg.version %> - " + today + ". (c) " + date.getFullYear() + " Miguel Castillo. Licensed under MIT */\n";
 
 
 gulp.task("test", ["build-debug"], function() {
   return gulp.src("test/SpecRunner.html")
     .pipe(mochaPhantomJS({
-        reporter: 'tap',
-        mocha: {
-            grep: 'pattern'
-        },
-        phantomjs: {
-            viewportSize: {
-                width: 1024,
-                height: 768
-            }
+      reporter: 'tap',
+      mocha: {
+        grep: 'pattern'
+      },
+      phantomjs: {
+        viewportSize: {
+          width: 1024,
+          height: 768
         }
+      }
     }));
 });
 
@@ -36,22 +43,20 @@ gulp.task("serve", ["build-release", "build-debug"], function() {
 
 
 gulp.task("build-release", ["jshint"], function() {
-  var bundler = new browserify({
-    debug: true, // Add source maps to output to allow minifyify convert them to minified source maps
-    standalone: "amdresolver",
-    detectGlobals: false,
-  });
-
-  bundler
-    .ignore("process")
-    .add("./src/resolver.js");
-
-  bundler.plugin("minifyify", {
+  return browserify({
+      debug: true, // Add source maps to output to allow minifyify convert them to minified source maps
+      standalone: "amdresolver",
+      detectGlobals: false,
+    })
+    .plugin("minifyify", {
       map: "dist/amd-resolver.min.js.map",
       output: "dist/amd-resolver.min.js.map"
     })
+    .ignore("process")
+    .add("./src/resolver.js")
     .bundle()
     .pipe(source("amd-resolver.min.js"))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest("dist"));
 });
 
@@ -64,6 +69,7 @@ gulp.task("build-debug", ["jshint"], function() {
     .ignore("process")
     .bundle()
     .pipe(source("amd-resolver.js"))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest("dist"));
 });
 
