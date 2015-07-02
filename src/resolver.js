@@ -1,6 +1,16 @@
 var File = require('./file');
 var Url  = require('./url');
 
+
+var defaults = {
+  urlArgs: "",
+  shim: {},
+  packages: [],
+  paths: {},
+  extensions: []
+};
+
+
 /**
  * @constructor
  * Provides a way to build a module meta object from a module name.  The resolution
@@ -9,15 +19,22 @@ var Url  = require('./url');
  * the corresponding file from a remote sever.
  */
 function Resolver(options) {
-  this.settings = options || {};
-  var baseUrl = this.settings.baseUrl || (this.settings.baseUrl = ".");
+  options = options || {};
+  var baseUrl = options.baseUrl || ".";
 
   // Make sure that if a baseUrl is provided, it ends in a slash.  This is to ensure
   // proper creation of URLs.
   if (baseUrl && baseUrl[baseUrl.length - 1] !== '/') {
-    this.settings.baseUrl = baseUrl + '/';
+    baseUrl = baseUrl + '/';
   }
+
+  for (var option in defaults) {
+    this[option] = options.hasOwnProperty(option) ? options[option] : defaults[option];
+  }
+
+  this.baseUrl = baseUrl;
 }
+
 
 /**
  * Creates a module meta from a module name/id.
@@ -29,20 +46,18 @@ function Resolver(options) {
  * @returns {{name: string, file: File, urlArgs: string, shim: object}}
  */
 Resolver.prototype.resolve = function(name, baseUrl) {
-  var i, length, file, pkg, pkgParts, pkgName, pkgTarget, shim;
-  var settings = this.settings,
-      urlArgs  = settings.urlArgs,
-      shims    = settings.shim || {},
-      packages = settings.packages || [],
-      paths    = settings.paths || {},
-      fileName = paths[name],
-      plugins  = name.split("!");
+  var i, length, file, fileExtension, pkg, pkgParts, pkgName, pkgPath, shim;
+  var shims      = this.shim;
+  var packages   = this.packages;
+  var paths      = this.paths;
+  var fileName   = paths[name];
+  var plugins    = name.split("!");
 
   // The last item is the actual module name.
-  name      = plugins.pop();
-  pkgParts  = name.replace(/[\/\\]+/g, "/").split("/");
-  pkgName   = pkgParts.shift();
-  pkgTarget = pkgParts.join("/");
+  name     = plugins.pop();
+  pkgParts = name.replace(/[\/\\]+/g, "/").split("/");
+  pkgName  = pkgParts.shift();
+  pkgPath  = pkgParts.join("/");
 
   // Go through the packages and figure if the module is actually configured as such.
   for (i = 0, length = packages.length; i < length; i++) {
@@ -53,8 +68,8 @@ Resolver.prototype.resolve = function(name, baseUrl) {
       break;
     }
     else if (pkg.name === pkgName) {
-      fileName = pkg.location ? (pkg.location + "/") : "";
-      fileName += pkgName + "/" + (pkgTarget || (pkg.main || "main"));
+      fileName = (pkg.location && (pkg.location + "/")) || "";
+      fileName += pkgName + "/" + (pkgPath || (pkg.main || "main"));
       break;
     }
   }
@@ -70,13 +85,17 @@ Resolver.prototype.resolve = function(name, baseUrl) {
      fileName = name;
   }
 
-  // Let's assume .js extension for everything that is not defined with plugins
-  if (plugins.length === 0 && /\.js$/.test(fileName) === false) {
+  // Get the extension to determine if we need to add the `js` extension or not.
+  fileExtension = File.getExtension(fileName);
+
+  // Let's assume .js extension for everything that is not for a plugin
+  // or a known extension
+  if (plugins.length === 0 && fileExtension !== "js" && this.extensions.indexOf(fileExtension) === -1) {
     fileName += ".js";
   }
 
-  baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : settings.baseUrl;
-  file    = new File(urlArgs ? fileName + "?" + urlArgs : fileName, baseUrl);
+  baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : this.baseUrl;
+  file    = new File(this.urlArgs ? fileName + "?" + this.urlArgs : fileName, baseUrl);
 
   return {
     name: name,

@@ -528,6 +528,67 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
+    describe("When Resolver has known `extensions`", function() {
+      describe("and a known extension is `jsx`", function() {
+        var resolver;
+
+        beforeEach(function() {
+          resolver = new Resolver({
+            extensions: ["jsx"]
+          });
+        });
+
+        describe("and resolving `test.jsx`", function() {
+          var moduleMeta;
+
+          beforeEach(function() {
+            moduleMeta = resolver.resolve("test.jsx");
+          });
+
+          it("then `url.href` is test.jsx", function() {
+            expect(moduleMeta.url.href).to.equal("test.jsx");
+          });
+        });
+
+        describe("and resolving `.test.jsx`", function() {
+          var moduleMeta;
+
+          beforeEach(function() {
+            moduleMeta = resolver.resolve(".test.jsx");
+          });
+
+          it("then `url.href` is .test.jsx", function() {
+            expect(moduleMeta.url.href).to.equal(".test.jsx");
+          });
+        });
+
+        describe("and resolving `test.jsx1`", function() {
+          var moduleMeta;
+
+          beforeEach(function() {
+            moduleMeta = resolver.resolve("test.jsx1");
+          });
+
+          it("then `url.href` is test.jsx1.js", function() {
+            expect(moduleMeta.url.href).to.equal("test.jsx1.js");
+          });
+        });
+
+        describe("and resolving `/.test`", function() {
+          var moduleMeta;
+
+          beforeEach(function() {
+            moduleMeta = resolver.resolve("/.test");
+          });
+
+          it("then `url.href` is /.test.js", function() {
+            expect(moduleMeta.url.href).to.equal("/.test.js");
+          });
+        });
+      });
+    });
+
+
     describe("When Resolver has urlArgs `bust=date`", function() {
       var resolver, bust = 'bust=' + (new Date()).getTime();
 

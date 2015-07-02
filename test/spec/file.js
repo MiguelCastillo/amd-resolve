@@ -145,6 +145,50 @@ define(["dist/amd-resolver"], function(Resolver) {
     });
 
 
+    describe("when getting the extension from a file", function() {
+      describe("and getting the extension from `file.js`", function() {
+        it("then `js` is returned", function() {
+          expect(File.getExtension("file.js")).to.equal("js");
+        });
+      });
+
+      describe("and getting the extension from `/.file.js`", function() {
+        it("then `js` is returned", function() {
+          expect(File.getExtension("/.file.js")).to.equal("js");
+        });
+      });
+
+      describe("and getting the extension from `.file.js`", function() {
+        it("then `js` is returned", function() {
+          expect(File.getExtension(".file.js")).to.equal("js");
+        });
+      });
+
+      describe("and getting the extension from `.file.js.txt.executable.binary`", function() {
+        it("then `js` is returned", function() {
+          expect(File.getExtension(".file.js.txt.executable.binary")).to.equal("binary");
+        });
+      });
+
+      describe("and getting the extension from a file without extension", function() {
+        it("then empty string is returned", function() {
+          expect(File.getExtension("file")).to.equal("");
+        });
+      });
+
+      describe("and getting the extension from `/.file`", function() {
+        it("then no extension is returned", function() {
+          expect(File.getExtension(".file")).to.equal("");
+        });
+      });
+
+      describe("and getting the extension from `.file`", function() {
+        it("then no extension is returned", function() {
+          expect(File.getExtension(".file")).to.equal("");
+        });
+      });
+    });
+
 
     describe("when calling `new File`", function() {
       describe("using HTTP protocol", function() {
