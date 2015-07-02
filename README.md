@@ -25,6 +25,8 @@ Resolver - provides the means to convert a module name to a module meta object. 
 
     That will tells resolver that the location for `md5` is `path/to/file/md5.js`.
 
+  - **`extensions`** *{array}* - is an array of strings that define a list of known extensions. Files with extensions in this whitelist will not get the `js` extension appened to it.
+
   - **`packages`** *{array}* - is an array of directory aliases to files. Think npm packages that load `index.js` by default.
 
     A package can be a string, in which case resolver will generate urls in the form of `packagename/main.js`. That is to say that if you have a package called `machines`, then resolving `machines` will generate a url to `machinge/main.js`.
@@ -49,6 +51,7 @@ Resolver - provides the means to convert a module name to a module meta object. 
 var resolver = new Resolver({
   "urlArgs": 'bust=' + (new Date()).getTime(),
   "baseUrl": "../",
+  "extensions": ["json"],
   "paths": {
     "mocha": "../node_modules/mocha/mocha",
     "chai": "../node_modules/chai/chai"
