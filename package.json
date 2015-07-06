@@ -1,7 +1,7 @@
 {
   "name": "amd-resolver",
   "version": "1.2.1",
-  "description": "Resolve AMD module names to File objects suitable to run in the Browser",
+  "description": "Resolve module names to File objects",
   "main": "src/resolver.js",
   "scripts": {
     "prepublish": "gulp build",
