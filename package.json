@@ -1,7 +1,7 @@
 {
   "name": "amd-resolver",
   "version": "1.2.1",
-  "description": "Resolve module names to File objects",
+  "description": "Resolve module names to module meta objects",
   "main": "src/resolver.js",
   "scripts": {
     "prepublish": "gulp build",
