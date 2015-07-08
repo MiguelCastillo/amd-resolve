@@ -1,15 +1,17 @@
 # amd-resolver [![Build Status](https://travis-ci.org/MiguelCastillo/amd-resolver.svg?branch=master)](https://travis-ci.org/MiguelCastillo/amd-resolver) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MiguelCastillo/amd-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
->Create module meta objects from module names using configuration options compatible with [RequireJS](http://requirejs.org/docs/api.html#config). Such module meta objects can be used by Module Loaders to download and process module files in the Browser. The module meta format is described [here](#returns-object---module-meta)
+> Resolve module names to module meta objects.
+
+> A module meta object contains information such as a url that can be used for loading a file from storage. The module meta format is described [here](#returns-object---module-meta).
 
 ### API
 
 #### Resolver(options : object) : constructor
-Resolver - provides the means to convert a module name to a module meta object. A module meta object contains information such as a url, which can be used for fetching the module file from a remote sever.
+Creates interface to convert module names to a module meta object.
 
 ##### Parameters
 
-- **`options`** *{object}* - is a configuration options object with information for creating module meta objects.  It is compatible with requirejs settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
+- **`options`** *{object}* - is a configuration options object with information for creating module meta objects. The options are compatible with [RequireJS](http://requirejs.org/docs/api.html#config) settings for `paths`, `packages`, `baseUrl`, `shim`, and `urlArgs`.
   - **`baseUrl`** *{string}* - path that every file is relative to.
   - **`paths`** *{object}* - is an object with key value pairs to map module names to files.
 
