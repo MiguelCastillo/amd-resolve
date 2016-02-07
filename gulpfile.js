@@ -46,7 +46,7 @@ gulp.task("build-release", ["jshint"], function() {
   return browserify({
       debug: true, // Add source maps to output to allow minifyify convert them to minified source maps
       standalone: "amdresolver",
-      detectGlobals: false,
+      detectGlobals: false
     })
     .plugin("minifyify", {
       map: "dist/amd-resolver.min.js.map",
