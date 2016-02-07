@@ -1,14 +1,7 @@
-var Url = require('./url');
-
-function File(fileUrl, baseUrl) {
-  this.url = new Url(fileUrl, baseUrl);
-}
-
-
 /**
  * Build and file object with the important pieces
  */
-File.parseParts = function (fileString) {
+function parseParts(fileString) {
   var name;
   var directory = fileString.replace(/([^/]+)$/gmi, function(match) {name = match;return "";});
 
@@ -17,7 +10,7 @@ File.parseParts = function (fileString) {
     directory: directory,
     path: fileString
   };
-};
+}
 
 
 /**
@@ -29,8 +22,8 @@ File.parseParts = function (fileString) {
  *   value is the extension without the `.`. E.g. `js`, `html`.  Not `.js`, `.html`.
  * @returns {string} New fileString with the new extension if one did not exist
  */
-File.addExtension = function(fileString, extension) {
-  var fileName  = File.parseParts(fileString);
+function addExtension(fileString, extension) {
+  var fileName  = parseParts(fileString);
   var fileParts = fileName.name.split(".");
 
   if (fileParts.length === 1 && extension) {
@@ -38,7 +31,7 @@ File.addExtension = function(fileString, extension) {
   }
 
   return fileName.directory + fileParts.join(".");
-};
+}
 
 
 /**
@@ -48,10 +41,10 @@ File.addExtension = function(fileString, extension) {
  *
  * @returns {string} File extension
  */
-File.getExtension = function(fileString) {
+function getExtension(fileString) {
   var fileParts = fileString.match(/[^.\/\\]+\.([^.]+)$/);
   return fileParts && fileParts[1] || "";
-};
+}
 
 
 /**
@@ -62,7 +55,7 @@ File.getExtension = function(fileString) {
  *   value is the extension without the `.`. E.g. `js`, `html`.  Not `.js`, `.html`.
  * @returns {string} fileString with the new extension
  */
-File.replaceExtension = function(fileString, extension) {
+function replaceExtension(fileString, extension) {
   var regex = /([^.\/\\]+\.)[^.]+$/;
   if (regex.test(fileString)) {
     return fileString.replace(regex, "$1" + extension);
@@ -70,7 +63,12 @@ File.replaceExtension = function(fileString, extension) {
   else {
     return fileString + "." + extension;
   }
+}
+
+
+module.exports = {
+  parseParts: parseParts,
+  addExtension: addExtension,
+  getExtension: getExtension,
+  replaceExtension: replaceExtension
 };
-
-
-module.exports = File;

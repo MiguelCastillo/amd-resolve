@@ -1,4 +1,4 @@
-var File = require('./file');
+var file = require('./file');
 var Url  = require('./url');
 
 
@@ -46,7 +46,7 @@ function Resolver(options) {
  * @returns {{name: string, file: File, urlArgs: string, shim: object}}
  */
 Resolver.prototype.resolve = function(name, baseUrl) {
-  var i, length, file, fileExtension, pkg, pkgParts, pkgName, pkgPath, shim;
+  var i, length, fileExtension, pkg, pkgParts, pkgName, pkgPath, shim, url;
   var shims      = this.shim;
   var packages   = this.packages;
   var paths      = this.paths;
@@ -86,7 +86,7 @@ Resolver.prototype.resolve = function(name, baseUrl) {
   }
 
   // Get the extension to determine if we need to add the `js` extension or not.
-  fileExtension = File.getExtension(fileName);
+  fileExtension = file.getExtension(fileName);
 
   // Let's assume .js extension for everything that is not for a plugin
   // or a known extension
@@ -95,12 +95,11 @@ Resolver.prototype.resolve = function(name, baseUrl) {
   }
 
   baseUrl = Resolver.useBase(fileName) && baseUrl ? baseUrl : this.baseUrl;
-  file    = new File(this.urlArgs ? fileName + "?" + this.urlArgs : fileName, baseUrl);
+  url     = new Url(this.urlArgs ? fileName + "?" + this.urlArgs : fileName, baseUrl);
 
   return {
     name: name,
-    file: file, // Deprecated in favor of `url`
-    url: file.url,
+    url: url,
     shim: shim,
     plugins: plugins
   };
@@ -123,6 +122,6 @@ Resolver.hasProtocol = function(name) {
 };
 
 
-Resolver.File  = File;
+Resolver.file  = file;
 Resolver.Url   = Url;
 module.exports = Resolver;
