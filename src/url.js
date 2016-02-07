@@ -139,9 +139,12 @@ parse.href = function(url) {
  * @returns {string} directory of the pathname
  */
 function directory(pathname) {
-  return (pathname.length !== 1 && pathname[pathname.length - 1] !== "/") ?
-    pathname.substr(0, pathname.lastIndexOf("/")) :
-    pathname;
+  if (pathname.length !== 1 && pathname[pathname.length - 1] !== "/") {
+    var idx = pathname.lastIndexOf("/");
+    return pathname.substr(0, idx === 0 ? 1 : idx);
+  }
+
+  return pathname;
 }
 
 
