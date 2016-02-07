@@ -91,7 +91,6 @@ Creates a module meta object. If `name` starts with `./`,  `../`, or a protocol,
 ##### Returns {object} - module meta
 
   - **`name`** *{string}* - Name of the module being resolved. Plugin definitions are not included.
-  - **`file`** *{File}* [deprecated] - File object with a URL that can be used to request the module file from a remote server.
   - **`url`** *{Url}* - Url object that's compliant with [URL Api](https://developer.mozilla.org/en-US/docs/Web/API/URL).
   - **`plugins`** *{array}* - Array of strings created from the input module `name`. Anything at the beginning of the module `name` that is delimited by a `!` will be processed as a plugin.
   - **`shim`** *{object}* - Object containing information about modules that exist in the global object. `shim` can specify a couple of things.
